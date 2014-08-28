@@ -2,8 +2,6 @@
 require_once('classes/db.class.php');
 $db = new db_class;
 
-// Open up the database connection.
-
 if(!$db->connect()){
     $db->print_last_error(false);
 }
@@ -28,11 +26,12 @@ if(!$db->connect()){
         <div class="row">
             <div class="col-md-8 well">
 
-                xxx {{formData.voorkeur}} xxx
+                xxx {{formData[0]}} xxx<br>
+                aa {{formData[0].voorkeur}} aa<br>
 
-               yy {{nawformCrtl.voorkeur}}yy
+               yy {{nawformCrtl.voorkeur}}yy<br>
 
-                nn {{voorkeur}} nn
+                nn {{voorkeur}} nn<br>
 
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
                     <div class="form-group">
