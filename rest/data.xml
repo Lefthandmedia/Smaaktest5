@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<entries sessie="2345">
+
+	<entry>
+		<id>27</id>
+		<locatie>Indische_Buurt_Noord</locatie>
+		<photos>
+			<photo id='0'><![CDATA[dummy.jpg]]></photo>
+			<photo id='1'><![CDATA[dummy2.jpg]]></photo>
+			<photo id='2'><![CDATA[dummy3.jpg]]></photo>
+			<photo id='3'><![CDATA[dummy4.jpg]]></photo>
+			<photo id='4'><![CDATA[dummy5.jpg]]></photo>
+			<photo id='5'><![CDATA[dummy6.jpg]]></photo>
+			<photo id='6'><![CDATA[dummy7.jpg]]></photo>
+			<photo id='7'><![CDATA[dummy8.jpg]]></photo>
+			<photo id='8'><![CDATA[dummy9.jpg]]></photo>
+		</photos>
+	</entry>
+	
+	<entry>
+		<id>28</id>
+		<locatie>xIndische_Buurt_Noord</locatie>
+		<photos>
+			<photo id='0'><![CDATA[dummy.jpg]]></photo>
+			<photo id='1'><![CDATA[dummy2.jpg]]></photo>
+			<photo id='2'><![CDATA[dummy3.jpg]]></photo>
+			<photo id='3'><![CDATA[dummy5.jpg]]></photo>
+			<photo id='4'><![CDATA[dummy4.jpg]]></photo>
+			<photo id='5'><![CDATA[dummy6.jpg]]></photo>
+			<photo id='6'><![CDATA[dummy7.jpg]]></photo>
+			<photo id='7'><![CDATA[dummy8.jpg]]></photo>
+			<photo id='8'><![CDATA[dummy9.jpg]]></photo>
+		</photos>
+	</entry>
+	
+	<entry>
+		<id>29</id>
+		<locatie>xxIndische_Buurt_Noord</locatie>
+		<photos>
+			<photo id='0'><![CDATA[dummy.jpg]]></photo>
+			<photo id='1'><![CDATA[dummy2.jpg]]></photo>
+			<photo id='2'><![CDATA[dummy3.jpg]]></photo>
+			<photo id='3'><![CDATA[dummy4.jpg]]></photo>
+			<photo id='4'><![CDATA[dummy5.jpg]]></photo>
+			<photo id='5'><![CDATA[dummy6.jpg]]></photo>
+			<photo id='6'><![CDATA[dummy7.jpg]]></photo>
+			<photo id='7'><![CDATA[dummy8.jpg]]></photo>
+			<photo id='8'><![CDATA[dummy9.jpg]]></photo>
+		</photos>
+	</entry>
+</entries>

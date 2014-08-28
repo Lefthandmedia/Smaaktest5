@@ -1,0 +1,16 @@
+body  {
+    background-color:#CC0000;
+    color:#FFFFFF;
+    font-family:Verdana,Arial,Helvetica,sans-serif;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.overzicht_table {
+	border: 1px dotted #FFFFFF;
+	text-align:center;
+}
+
+td{
+	background-color: #CC0000;
+}
