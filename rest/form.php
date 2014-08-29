@@ -6,12 +6,12 @@
 require_once('db.class.php');
 $db = new db_class;
 // Open up the database connection.
-if(!$db->connect()){
+if (!$db->connect()) {
     $db->print_last_error(false);
 }
 //=======================
 
-$geboortejaar = array('voorkeur' => $db->getPulldown("SELECT * FROM user_voorkeur"));
+$geboortejaar = array('geboortejaar' => $db->getPulldown("SELECT * FROM user_voorkeur"));
 $sex = array('geslacht' => $db->getPulldown("SELECT * FROM user_geslacht"));
 $voorkeur = array('voorkeur' => $db->getPulldown("SELECT * FROM user_voorkeur"));
 $ikben = array('ikben' => $db->getPulldown("SELECT * FROM user_ikben"));
@@ -20,8 +20,8 @@ $duurzaamheid = array('duurzaamheid' => $db->getPulldown("SELECT * FROM user_duu
 $mijnband = array('mijnband' => $db->getPulldown("SELECT * FROM user_mijnband"));
 
 
-$form = array($voorkeur,
-        'identiteit' => array('identiteit1' => 1, 'identiteit2' => 2, 'identiteit3' => 3)
-);
+$form = array($voorkeur, $geboortejaar, $sex, $ikben, $texel, $duurzaamheid, $mijnband);
 
-echo json_encode($form);
+
+echo "[" . json_encode($voorkeur) . "," . json_encode($texel) . "]";
+// echo json_encode($form, JSON_FORCE_OBJECT);

@@ -270,9 +270,9 @@ class db_class{
 
     function getPulldown($sql){
          $r = $this->select($sql);
-         $res = [];
+         $res = array();
          while ($row = mysql_fetch_assoc($r)) {
-             array_push($res, ['label' => $row['label'], 'value' => $row['id']]);
+             $res[] = array('label' => $row['label'], 'value' => $row['id']);
          }
          return $res;
      }
@@ -372,10 +372,10 @@ class db_class{
 
     function pulldown_query_voorkeur($sql){
         $r = $this->select($sql);
-        $res = [];
+        $res = array();
         while ($row = mysql_fetch_assoc($r)) {
             //['label' => $row['samenstelling'], 'value'=>$row['id']]
-            array_push($res, ['label' => $row['label'], 'value' => $row['id']]);
+            array_push($res, array('label' => $row['label'], 'value' => $row['id']));
         }
 
         return array('voorkeur' => $res);

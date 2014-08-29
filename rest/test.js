@@ -1,0 +1,280 @@
+/**
+ * Created by ralph on 8/28/14.
+ */
+{
+    "0"
+:
+    {
+        "voorkeur"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "natuur", "value"
+            :
+                "7"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "cultuur", "value"
+            :
+                "8"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "sport en ontspanning\n", "value"
+            :
+                "9"
+            }
+        }
+    }
+,
+    "1"
+:
+    {
+        "geboortejaar"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "natuur", "value"
+            :
+                "7"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "cultuur", "value"
+            :
+                "8"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "sport en ontspanning\n", "value"
+            :
+                "9"
+            }
+        }
+    }
+,
+    "2"
+:
+    {
+        "geslacht"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "man", "value"
+            :
+                "3"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "vrouw", "value"
+            :
+                "4"
+            }
+        }
+    }
+,
+    "3"
+:
+    {
+        "ikben"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "behoudend", "value"
+            :
+                "4"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "vooruitstrevend", "value"
+            :
+                "5"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "gemiddeld", "value"
+            :
+                "6"
+            }
+        }
+    }
+,
+    "4"
+:
+    {
+        "texel"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "eens", "value"
+            :
+                "5"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "kan beter ", "value"
+            :
+                "6"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "oneens", "value"
+            :
+                "7"
+            }
+        }
+    }
+,
+    "5"
+:
+    {
+        "duurzaamheid"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "eens", "value"
+            :
+                "13"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "maakt niet uit", "value"
+            :
+                "14"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "oneens", "value"
+            :
+                "15"
+            }
+        }
+    }
+,
+    "6"
+:
+    {
+        "mijnband"
+    :
+        {
+            "0"
+        :
+            {
+                "label"
+            :
+                "als (potentiele) recreatieve bezoeker", "value"
+            :
+                "4"
+            }
+        ,
+            "1"
+        :
+            {
+                "label"
+            :
+                "als recreatief ondernemer op Texel", "value"
+            :
+                "5"
+            }
+        ,
+            "2"
+        :
+            {
+                "label"
+            :
+                "als bewoner-ondernemer op Texel", "value"
+            :
+                "6"
+            }
+        ,
+            "3"
+        :
+            {
+                "label"
+            :
+                "als bewoner van Texel", "value"
+            :
+                "7"
+            }
+        ,
+            "4"
+        :
+            {
+                "label"
+            :
+                "overig", "value"
+            :
+                "8"
+            }
+        }
+    }
+}

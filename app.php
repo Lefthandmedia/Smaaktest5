@@ -2,8 +2,6 @@
 require_once('classes/db.class.php');
 $db = new db_class;
 
-// Open up the database connection.
-
 if(!$db->connect()){
     $db->print_last_error(false);
 }
@@ -28,11 +26,10 @@ if(!$db->connect()){
         <div class="row">
             <div class="col-md-8 well">
 
-                xxx {{formData.voorkeur}} xxx
-
-               yy {{nawformCrtl.voorkeur}}yy
-
-                nn {{voorkeur}} nn
+                xx {{formData[0]}} xx<br>
+                ava {{formData[0].voorkeur[0]}} aa<br>
+                yy {{formData.voorkeur}} yy<br>
+                nn {{voorkeur}} nn<br>
 
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
                     <div class="form-group">
@@ -55,7 +52,7 @@ if(!$db->connect()){
                     <div class="form-group">
                         <label for="vraag1">kies een voorkeur</label>
 
-                        <select ng-model="voorkeur" ng-options="voorkeur.value as voorkeur.label for voorkeur in formData.voorkeur">
+                        <select ng-model="voorkeur" ng-options="voorkeur.value as voorkeur.label for voorkeur in formData">
                             <option value="">-- kies een voorkeur --</option>
                         </select>
 
