@@ -2,54 +2,81 @@
  * @author Lefthandmedia <ralph@lefthandmedia.com>
  */
 
-(function () {
+(function() {
 
-    var app = angular.module('formModule', []);
+	var app = angular.module('formModule', []);
 
-//---------------- FORMCONTROLLER ---------------
-    app.controller('formController', [ '$rootScope', '$scope', '$http', 'dataFactory', function ($rootScope, $scope, $http, dataFactory) {
+	//---------------- FORMCONTROLLER ---------------
+	app.controller('formController', [ '$rootScope', '$scope', '$http', 'dataFactory', function($rootScope, $scope, $http, dataFactory) {
 
-	    this.naw = {};
-        $scope.df = dataFactory;
-        $rootScope.step = 1;
-	    $scope.voorkeur = 'leeg';
-        $scope.formData = '';
+		this.naw = {};
 
-        dit = this;
+		$scope.df = dataFactory;
+		$rootScope.step = 1;
+		$scope.formData = [];
+
+		var dit = this;
 
 
-        //--- make age dropdown ---
-        $scope.ages = [];
-        for (var i = 0; i < 99; i++) {
-            $scope.ages.push({'name': i, 'value': i})
-        }
+		//--- make age dropdown ---
+		$scope.ages = [];
+		for(var i = 0; i < 99; i++)
+		{
+			$scope.ages.push({'name': i, 'value': i})
+		}
+		//----------------------
+		var getForm = function(dit) {
 
-	    this.getForm = function(){
-		    $http({method:'get',url:'/rest/form.php'})
-			    .success(function(data){
-                    console.log(data);
-			        $scope.formData = data[0]; //what to do with form JSON
+			function toObject(arr) {
+				var rv = {};
+				for(var i = 0; i < arr.length; ++i)
+					rv[i] = arr[i];
+				return rv;
+			}
 
-		                            })
-			    .error(function(data){
-			                           // what to do on err
-		                           })
-	    };
+			$http({method: 'get', url: '/rest/form.php'})
+				.success(function(data) {
 
-	    this.getForm();
+					         var dat = data;
+				             $scope.formData = dat; //what to do with form JSON
 
-        //---------- verstuur NAW form---------------
-        this.submit = function () {
-            console.log(dit.naw);
+					         console.log(dat.form);
+				                         var form = dat.form;
 
-            $http({method: 'get', url: '/submit.php'}).success(function (data) {
-                $scope.naw = data;
-                $scope.df.setQuiz(data);
-                $rootScope.step = 2;
-            });
-        };
-    }]);
-    //---- end FormController
+					         for(var key in form)
+					         {
+						         console.log('------ ' );
+						         console.log(form[key]);
+						         console.log(key);
+					         }
+
+
+
+
+				         })
+				.error(function(data) {
+					       // what to do on err
+				       })
+		};
+
+		getForm();
+
+		//---------- verstuur NAW form---------------
+		this.submit = function() {
+			console.log(dit.naw);
+
+			$http({method: 'get', url: '/submit.php'}).success(function(data) {
+				$scope.naw = data;
+				$scope.df.setQuiz(data);
+				$rootScope.step = 2;
+			});
+		};
+	}]);
+	//---- end FormController
+
+	this.service = function(data) {
+		console.log('Test root');
+	};
 
 
 })();

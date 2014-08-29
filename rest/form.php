@@ -13,15 +13,13 @@ if (!$db->connect()) {
 
 $geboortejaar = array('geboortejaar' => $db->getPulldown("SELECT * FROM user_voorkeur"));
 $sex = array('geslacht' => $db->getPulldown("SELECT * FROM user_geslacht"));
-$voorkeur = array('voorkeur' => $db->getPulldown("SELECT * FROM user_voorkeur"));
+$voorkeur = array('label'=>'voorkeur','value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
 $ikben = array('ikben' => $db->getPulldown("SELECT * FROM user_ikben"));
 $texel = array('texel' => $db->getPulldown("SELECT * FROM user_texel"));
 $duurzaamheid = array('duurzaamheid' => $db->getPulldown("SELECT * FROM user_duurzaamheid"));
 $mijnband = array('mijnband' => $db->getPulldown("SELECT * FROM user_mijnband"));
 
 
-$form = array($voorkeur, $geboortejaar, $sex, $ikben, $texel, $duurzaamheid, $mijnband);
+$form = array($voorkeur, $voorkeur);
 
-
-echo "[" . json_encode($voorkeur) . "," . json_encode($texel) . "]";
-// echo json_encode($form, JSON_FORCE_OBJECT);
+echo json_encode(array('form'=>$form));

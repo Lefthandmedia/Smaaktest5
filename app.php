@@ -1,5 +1,5 @@
 <?php
-require_once('classes/db.class.php');
+require_once('rest/db.class.php');
 $db = new db_class;
 
 if(!$db->connect()){
@@ -26,11 +26,14 @@ if(!$db->connect()){
         <div class="row">
             <div class="col-md-8 well">
 
-                xx {{formData[0]}} xx<br>
-                ava {{formData[0].voorkeur[0]}} aa<br>
-                yy {{formData.voorkeur}} yy<br>
-                nn {{voorkeur}} nn<br>
-
+                xx {{formData}} xx<br>
+                ava {{formData.form}} aa<br>
+                nn {{formData.formData.label}} nn<br>
+-----
+                <div ng-repeat="row in formData">
+                    {{row.label}}
+                </div>
+-----
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
                     <div class="form-group">
                         <label for="naam">naam</label>
