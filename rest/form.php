@@ -6,7 +6,7 @@
 require_once('db.class.php');
 $db = new db_class;
 // Open up the database connection.
-if(!$db->connect()){
+if (!$db->connect()) {
     $db->print_last_error(false);
 }
 //=======================
@@ -20,8 +20,8 @@ $duurzaamheid = array('duurzaamheid' => $db->getPulldown("SELECT * FROM user_duu
 $mijnband = array('mijnband' => $db->getPulldown("SELECT * FROM user_mijnband"));
 
 
-$form = array($voorkeur,$geboortejaar,$sex,$ikben,$texel,$duurzaamheid,$mijnband);
+$form = array($voorkeur, $geboortejaar, $sex, $ikben, $texel, $duurzaamheid, $mijnband);
 
 
-// echo json_encode($form);
-echo json_encode($form, JSON_FORCE_OBJECT);
+echo "[" . json_encode($voorkeur) . "," . json_encode($texel) . "]";
+// echo json_encode($form, JSON_FORCE_OBJECT);

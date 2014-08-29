@@ -13,6 +13,7 @@
         $scope.df = dataFactory;
         $rootScope.step = 1;
 	    $scope.voorkeur = 'leeg';
+        $scope.formData = '';
 
         dit = this;
 
@@ -26,7 +27,9 @@
 	    this.getForm = function(){
 		    $http({method:'get',url:'/rest/form.php'})
 			    .success(function(data){
-			           $scope.formData = data;                 //what to do with form JSON
+                    console.log(data);
+			        $scope.formData = data[0]; //what to do with form JSON
+
 		                            })
 			    .error(function(data){
 			                           // what to do on err
