@@ -10,7 +10,7 @@ if(!$db->connect()){
 <!DOCTYPE html>
 <html ng-app='smaaktest5'>
 <head>
-    <title>Learning AngularJS</title>
+    <title>STAGING SMAAKTEST</title>
     <link rel="stylesheet" href="_css/bootstrap.min.css"/>
     <link rel="stylesheet" href="_css/main.min.css"/>
     <script src="_js/libs/jquery.min.js" type="text/javascript"></script>
@@ -26,40 +26,28 @@ if(!$db->connect()){
         <div class="row">
             <div class="col-md-8 well">
 
-                xx {{formData}} xx<br>
-                ava {{formData.form}} aa<br>
-                nn {{formData.formData.label}} nn<br>
------
-                <div ng-repeat="row in formData">
-                    {{row.label}}
-                </div>
------
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
-                    <div class="form-group">
-                        <label for="naam">naam</label>
-                        <input ng-model="nawformCrtl.naw.naam" name="naam" class="form-control" id="naam"
-                                placeholder="Enter naam" required>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input ng-model="nawformCrtl.naw.email" name="email" type="email" class="form-control"
-                                id="email" placeholder="Enter email">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="vraag1">een vraag</label>
-                        <input ng-model="nawformCrtl.naw.vraag" class="form-control" id="vraag1">
-                    </div>
-                    -------------------------------
-                    <div class="form-group">
-                        <label for="vraag1">kies een voorkeur</label>
 
-                        <select ng-model="voorkeur" ng-options="voorkeur.value as voorkeur.label for voorkeur in formData">
-                            <option value="">-- kies een voorkeur --</option>
-                        </select>
+                    <div ng-repeat="element in formData">
+
+                       test {{element[0][0].label}}
+                    </div>
+                    ------------------
+                    <div>
+
+                        <div class="form-group" ng-repeat="row in formData">
+                            <label for="vraag1">kies een voorkeur</label>
+
+                            <select ng-model="nawformCrtl.naw.voorkeur" ng-options="item.value as item.label for item in formData.voorkeur">
+                                <option value="">-- kies een voorkeur --</option>
+                            </select>
+
+                        </div>
 
                     </div>
+
                     ------------------
                     <div class="form-group">
                         <label for="vraag1">een vraag</label>
@@ -77,12 +65,12 @@ if(!$db->connect()){
                     <button type="submit" class="btn btn-default">Submit</button>
 
                 </form>
-                <!--
+
                                 {{nawformCrtl.naw.naam}},
                                 {{nawformCrtl.naw.email}},
                                 {{nawformCrtl.naw.vraag}},
-                                {{nawformCrtl.naw.box}},
-                                {{state}} -->
+                                {{nawformCrtl.naw.voorkeur}},
+                                {{state}}
 
                 <br/>
             </div>

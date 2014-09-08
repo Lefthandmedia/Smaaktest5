@@ -36,21 +36,15 @@
 
 			$http({method: 'get', url: '/rest/form.php'})
 				.success(function(data) {
-
-					         var dat = data;
-				             $scope.formData = dat; //what to do with form JSON
-
-					         console.log(dat.form);
-				                         var form = dat.form;
+					         var formData = [];
+					         var form = data.form;
 
 					         for(var key in form)
 					         {
-						         console.log('------ ' );
-						         console.log(form[key]);
-						         console.log(key);
+						         formData[form[key].label] = angular.fromJson(form[key].value);
 					         }
-
-
+					         console.log(formData);
+					         $scope.formData = formData;
 
 
 				         })

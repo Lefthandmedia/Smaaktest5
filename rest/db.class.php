@@ -31,17 +31,17 @@ class db_class{
 
 
         //testserver
-        /*
+
          $this->host = 'localhost';
          $this->user = 'root';
-         $this->pw = 'nicasal';
+         $this->pw = 'root';
          $this->db = 'smaaktest';
-       */
+
         //live server
-        $this->host = '85.17.140.102';
-        $this->user = 'staging';
-        $this->pw = 'Vqrb9_42';
-        $this->db = 'architectuur_STAGING';
+       // $this->host = '85.17.140.102';
+       // $this->user = 'staging';
+       // $this->pw = 'Vqrb9_42';
+       // $this->db = 'architectuur_STAGING';
 
         $this->auto_slashes = true;
     }
@@ -267,7 +267,13 @@ class db_class{
         echo "</table></div>\n";
     }
 
-
+/* =====================================================
+ *
+ *
+ * LHM  port naar HTML JSON
+ *
+ *
+ =======================================================*/
     function getPulldown($sql){
          $r = $this->select($sql);
          $res = array();
@@ -276,7 +282,9 @@ class db_class{
          }
          return $res;
      }
-
+/*
+ * ================== END PORT ==========================
+ */
     //======================== pulldown ===========================
     function pulldown_query($sql, $name){
         $r = $this->select($sql);
