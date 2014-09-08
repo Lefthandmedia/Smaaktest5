@@ -14,11 +14,7 @@
         $scope.actual = -1;
         $scope.actualPic = '/pictures/Biogewas.jpg';
 
-        qc.pictures = [
-            {url: '/hier.jpg', name: 'plaatje test'},
-            {url: '/hier1.jpg', name: 'plaatje1 test'},
-            {url: '/hier2.jpg', name: 'plaatje2 test'}
-        ];
+        qc.pictures = [];
 
         qc.startQuiz = function () {
             $scope.startup = false;

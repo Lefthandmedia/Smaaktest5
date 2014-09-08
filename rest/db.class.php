@@ -7,7 +7,8 @@ define('MYSQL_TYPES_STRING', 'string blob ');
 
 //$ebits = ini_get('error_reporting');
 //error_reporting($ebits ^ E_NOTICE);
-class db_class{
+class db_class
+{
 
     var $last_error; // holds the last error. Usually mysql_error()
     var $last_query; // holds the last query executed.
@@ -21,7 +22,8 @@ class db_class{
     var $db_link; // current/last database link identifier
     var $auto_slashes; // the class will add/strip slashes when it can
 
-    function db_class(){
+    function db_class()
+    {
 
         // class constructor.  Initializations here.
 
@@ -32,21 +34,22 @@ class db_class{
 
         //testserver
 
-         $this->host = 'localhost';
-         $this->user = 'root';
-         $this->pw = 'root';
-         $this->db = 'smaaktest';
+        $this->host = 'localhost';
+        $this->user = 'root';
+        $this->pw = 'root';
+        $this->db = 'smaaktest';
 
         //live server
-       // $this->host = '85.17.140.102';
-       // $this->user = 'staging';
-       // $this->pw = 'Vqrb9_42';
-       // $this->db = 'architectuur_STAGING';
+        // $this->host = '85.17.140.102';
+        // $this->user = 'staging';
+        // $this->pw = 'Vqrb9_42';
+        // $this->db = 'architectuur_STAGING';
 
         $this->auto_slashes = true;
     }
 
-    function connect($host = '', $user = '', $pw = '', $db = '', $persistant = true){
+    function connect($host = '', $user = '', $pw = '', $db = '', $persistant = true)
+    {
 
         // Opens a connection to MySQL and selects the database.  If any of the
         // function's parameter's are set, we want to update the class variables.
@@ -54,48 +57,49 @@ class db_class{
         // class variables.
         // Returns true if successful, false if there is failure.
 
-        if(!empty($host)){
+        if (!empty($host)) {
             $this->host = $host;
         }
-        if(!empty($user)){
+        if (!empty($user)) {
             $this->user = $user;
         }
-        if(!empty($pw)){
+        if (!empty($pw)) {
             $this->pw = $pw;
         }
 
 
         // Establish the connection.
-        if($persistant){
+        if ($persistant) {
             $this->db_link = mysql_pconnect($this->host, $this->user, $this->pw);
         } else {
             $this->db_link = mysql_connect($this->host, $this->user, $this->pw);
         }
 
         // Check for an error establishing a connection
-        if(!$this->db_link){
+        if (!$this->db_link) {
             $this->last_error = mysql_error();
             return false;
         }
 
         // Select the database
-        if(!$this->select_db($db)){
+        if (!$this->select_db($db)) {
             return false;
         }
 
         return $this->db_link; // success
     }
 
-    function select_db($db = ''){
+    function select_db($db = '')
+    {
 
         // Selects the database for use.  If the function's $db parameter is
         // passed to the function then the class variable will be updated.
 
-        if(!empty($db)){
+        if (!empty($db)) {
             $this->db = $db;
         }
 
-        if(!mysql_select_db($this->db)){
+        if (!mysql_select_db($this->db)) {
             $this->last_error = mysql_error();
             return false;
         }
@@ -103,7 +107,8 @@ class db_class{
         return true;
     }
 
-    function select($sql){
+    function select($sql)
+    {
 
         // Performs an SQL query and returns the result pointer or false
         // if there is an error.
@@ -111,7 +116,7 @@ class db_class{
         $this->last_query = $sql;
 
         $r = mysql_query($sql);
-        if(!$r){
+        if (!$r) {
             $this->last_error = mysql_error();
             return false;
         }
@@ -119,7 +124,8 @@ class db_class{
         return $r;
     }
 
-    function select_one($sql){
+    function select_one($sql)
+    {
 
         // Performs an SQL query with the assumption that only ONE column and
         // one result are to be returned.
@@ -128,28 +134,29 @@ class db_class{
         $this->last_query = $sql;
 
         $r = mysql_query($sql);
-        if(!$r){
+        if (!$r) {
             $this->last_error = mysql_error();
             return false;
         }
-        if(mysql_num_rows($r) > 1){
+        if (mysql_num_rows($r) > 1) {
             $this->last_error = "Your query in function select_one() returned more that one result.";
             return false;
         }
-        if(mysql_num_rows($r) < 1){
+        if (mysql_num_rows($r) < 1) {
             $this->last_error = "Your query in function select_one() returned no results.";
             return false;
         }
         $ret = mysql_result($r, 0);
         mysql_free_result($r);
-        if($this->auto_slashes){
+        if ($this->auto_slashes) {
             return stripslashes($ret);
         } else {
             return $ret;
         }
     }
 
-    function get_row($result, $type = 'MYSQL_BOTH'){
+    function get_row($result, $type = 'MYSQL_BOTH')
+    {
 
         // Returns a row of data from the query result.  You would use this
         // function in place of something like while($row=mysql_fetch_array($r)).
@@ -157,25 +164,25 @@ class db_class{
         // main reason you would want to use this instead is to utilize the
         // auto_slashes feature.
 
-        if(!$result){
+        if (!$result) {
             $this->last_error = "Invalid resource identifier passed to get_row() function.";
             return false;
         }
 
-        if($type == 'MYSQL_ASSOC'){
+        if ($type == 'MYSQL_ASSOC') {
             $row = mysql_fetch_array($result, MYSQL_ASSOC);
         }
-        if($type == 'MYSQL_NUM'){
+        if ($type == 'MYSQL_NUM') {
             $row = mysql_fetch_array($result, MYSQL_NUM);
         }
-        if($type == 'MYSQL_BOTH'){
+        if ($type == 'MYSQL_BOTH') {
             $row = mysql_fetch_array($result, MYSQL_BOTH);
         }
 
-        if(!$row){
+        if (!$row) {
             return false;
         }
-        if($this->auto_slashes){
+        if ($this->auto_slashes) {
             // strip all slashes out of row...
             foreach ($row as $key => $value) {
                 $row[$key] = stripslashes($value);
@@ -184,13 +191,14 @@ class db_class{
         return $row;
     }
 
-    function dump_query($sql){
+    function dump_query($sql)
+    {
 
         // Useful during development for debugging  purposes.  Simple dumps a
         // query to the screen in a table.
 
         $r = $this->select($sql);
-        if(!$r){
+        if (!$r) {
             return false;
         }
         echo "<div style=\"border: 1px solid blue; font-family: sans-serif; margin: 8px;\">\n";
@@ -198,7 +206,7 @@ class db_class{
 
         $i = 0;
         while ($row = mysql_fetch_assoc($r)) {
-            if($i == 0){
+            if ($i == 0) {
                 echo "<tr><td colspan=\"" . sizeof($row) . "\"><span style=\"font-face: monospace; font-size: 9pt;\">Overzicht</span></td></tr>\n";
                 echo "<tr>\n";
                 foreach ($row as $col => $value) {
@@ -210,7 +218,7 @@ class db_class{
                 echo "</tr>\n";
             }
             $i++;
-            if($i % 2 == 0){
+            if ($i % 2 == 0) {
                 $bg = '#E3E3E3';
             } else {
                 $bg = '#F3F3F3';
@@ -227,13 +235,14 @@ class db_class{
         echo "</table></div>\n";
     }
 
-    function dump_query_photos($sql){
+    function dump_query_photos($sql)
+    {
 
         // Useful during development for debugging  purposes.  Simple dumps a
         // query to the screen in a table.
 
         $r = $this->select($sql);
-        if(!$r){
+        if (!$r) {
             return false;
         }
         echo "<div style=\"border: 1px solid blue; font-family: sans-serif; margin: 8px;\">\n";
@@ -241,7 +250,7 @@ class db_class{
 
         $i = 0;
         while ($row = mysql_fetch_assoc($r)) {
-            if($i == 0){
+            if ($i == 0) {
                 echo "<tr><td colspan=\"" . sizeof($row) . "\"><span style=\"font-face: monospace; font-size: 9pt;\">Photo database</span></td></tr>\n";
                 echo "<tr>\n";
                 foreach ($row as $col => $value) {
@@ -252,7 +261,7 @@ class db_class{
                 echo "</tr>\n";
             }
             $i++;
-            if($i % 2 == 0){
+            if ($i % 2 == 0) {
                 $bg = '#E3E3E3';
             } else {
                 $bg = '#F3F3F3';
@@ -267,26 +276,52 @@ class db_class{
         echo "</table></div>\n";
     }
 
-/* =====================================================
- *
- *
- * LHM  port naar HTML JSON
- *
- *
- =======================================================*/
-    function getPulldown($sql){
-         $r = $this->select($sql);
-         $res = array();
-         while ($row = mysql_fetch_assoc($r)) {
-             $res[] = array('label' => $row['label'], 'value' => $row['id']);
-         }
-         return $res;
-     }
-/*
- * ================== END PORT ==========================
- */
+    /* =====================================================
+     *
+     *
+     * -------------- LHM  port naar HTML JSON -------------
+     *
+     *
+     =======================================================*/
+    function getPulldown($sql)
+    {
+        $r = $this->select($sql);
+        $res = array();
+        while ($row = mysql_fetch_assoc($r)) {
+            $res[] = array('label' => $row['label'], 'value' => $row['id']);
+        }
+        // $object = json_decode(json_encode($res), FALSE);
+        return $res;
+    }
+
+    function getPictures($userID)
+    {
+        $sql = "SELECT * FROM app_locaties WHERE actief = 1 ORDER BY RAND()";
+        $result = mysql_query($sql) or die("Data not found.");
+        $entries = array();
+        while ($row = mysql_fetch_assoc($result)) {
+
+            $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = " . $row['id'] . " ORDER BY id ASC";
+            $result2 = mysql_query($sql2) or die("Data not found.");
+            $rn = 0;
+            $photos = array();
+            while ($row2 = mysql_fetch_assoc($result2)) {
+                $photos[$rn] = $row2['photo_src'];
+            }
+            $entrie = array("id" => $row['id'], "locatie" => $row['locatie'],"photos"=>$photos);
+            array_push($entries,$entrie);
+        }
+        return array('entries' => $entries, "sessie"=>$userID);
+    }
+
+
+
+    /*
+     * ================== END PORT ==========================
+     */
     //======================== pulldown ===========================
-    function pulldown_query($sql, $name){
+    function pulldown_query($sql, $name)
+    {
         $r = $this->select($sql);
         echo "<select name='" . $name . "'>\n";
         echo "<option value=''>allen</option>\n";
@@ -299,7 +334,8 @@ class db_class{
     }
 
     //======================== radio btn ===========================
-    function radio_query($sql, $name){
+    function radio_query($sql, $name)
+    {
         $r = $this->select($sql);
         while ($row = mysql_fetch_array($r)) {
             echo "<input type='radio' name='" . $name . "' value='" . $row[0] . "'> " . $row[1] . "<br/>";
@@ -307,7 +343,8 @@ class db_class{
     }
 
     //======================== checkbox ===========================
-    function checkbox_query($sql, $name){
+    function checkbox_query($sql, $name)
+    {
         $r = $this->select($sql);
         while ($row = mysql_fetch_array($r)) {
             echo "<input type='checkbox' name='" . $name . "' value='" . $row[0] . "'> " . $row[1] . "";
@@ -315,7 +352,8 @@ class db_class{
     }
 
     //======================== ervaring ===========================
-    function pulldown_query_ervaring($sql){
+    function pulldown_query_ervaring($sql)
+    {
         $r = $this->select($sql);
 
 
@@ -331,7 +369,8 @@ class db_class{
 
 
     //=====================pull down tags ============================= 
-    function pulldown_query_tags($sql){
+    function pulldown_query_tags($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"tag[]\" multiple=\"multiple\">\n";
@@ -343,7 +382,8 @@ class db_class{
     }
 
     //===================== tag ==============================
-    function pulldown_query_tag($sql){
+    function pulldown_query_tag($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"tag\" style='select'>\n";
@@ -355,7 +395,8 @@ class db_class{
     }
 
     //======================== geslacht ===========================
-    function pulldown_query_geslacht($sql){
+    function pulldown_query_geslacht($sql)
+    {
         $r = $this->select($sql);
         echo "<div>\n";
         while ($row = mysql_fetch_assoc($r)) {
@@ -365,7 +406,8 @@ class db_class{
     }
 
     //===================== postcode ==============================
-    function pulldown_query_postcode($sql){
+    function pulldown_query_postcode($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"postcode\" id=\"postcode\">\n";
@@ -378,7 +420,8 @@ class db_class{
 
     //====================== samnestelling ============================= 
 
-    function pulldown_query_voorkeur($sql){
+    function pulldown_query_voorkeur($sql)
+    {
         $r = $this->select($sql);
         $res = array();
         while ($row = mysql_fetch_assoc($r)) {
@@ -391,7 +434,8 @@ class db_class{
 
     //======================== opleiding =========================== 
 
-    function pulldown_query_opleiding($sql){
+    function pulldown_query_opleiding($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"opleiding\" id=\"opleiding\" >\n";
@@ -404,7 +448,8 @@ class db_class{
 
     //======================== woningtype ===========================
 
-    function pulldown_query_woningtype($sql){
+    function pulldown_query_woningtype($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"woningtype\" name=\"woningtype\">\n";
@@ -417,7 +462,8 @@ class db_class{
 
     //======================= auto ============================ 
 
-    function pulldown_query_auto($sql){
+    function pulldown_query_auto($sql)
+    {
         $r = $this->select($sql);
 
         //echo "<select name=\"autobezit\">\n";
@@ -432,7 +478,8 @@ class db_class{
 
     //====================== locatie =============================
 
-    function pulldown_query_locatie($sql){
+    function pulldown_query_locatie($sql)
+    {
         $r = $this->select($sql);
 
         echo "<select name=\"locatie\">\n";
@@ -445,7 +492,8 @@ class db_class{
 
     //=================================================== 
 
-    function pulldown_query_photo($sql){
+    function pulldown_query_photo($sql)
+    {
         echo "<table width=\"600\" border=\"0\">";
 
         for ($x = 1; $x < 10; $x++) {
@@ -467,7 +515,8 @@ class db_class{
         echo "</table>";
     }
 
-    function insert_sql($sql){
+    function insert_sql($sql)
+    {
 
         // Inserts data in the database via SQL query.
         // Returns the id of the insert or true if there is not auto_increment
@@ -476,20 +525,21 @@ class db_class{
         $this->last_query = $sql;
 
         $r = mysql_query($sql);
-        if(!$r){
+        if (!$r) {
             $this->last_error = mysql_error();
             return false;
         }
 
         $id = mysql_insert_id();
-        if($id == 0){
+        if ($id == 0) {
             return true;
         } else {
             return $id;
         }
     }
 
-    function update_sql($sql){
+    function update_sql($sql)
+    {
 
         // Updates data in the database via SQL query.
         // Returns the number or row affected or true if no rows needed the update.
@@ -498,13 +548,13 @@ class db_class{
         $this->last_query = $sql;
 
         $r = mysql_query($sql);
-        if(!$r){
+        if (!$r) {
             $this->last_error = mysql_error();
             return false;
         }
 
         $rows = mysql_affected_rows();
-        if($rows == 0){
+        if ($rows == 0) {
             return true;
         } // no rows were updated
         else {
@@ -513,7 +563,8 @@ class db_class{
 
     }
 
-    function insert_array($table, $data){
+    function insert_array($table, $data)
+    {
 
         // Inserts a row into the database from key->value pairs in an array. The
         // array passed in $data must have keys for the table's columns. You can
@@ -522,7 +573,7 @@ class db_class{
         // Returns the id of the insert or true if there is not auto_increment
         // column in the table.  Returns false if there is an error.
 
-        if(empty($data)){
+        if (empty($data)) {
             $this->last_error = "You must pass an array to the insert_array() function.";
             return false;
         }
@@ -535,20 +586,20 @@ class db_class{
             $cols .= "$key,";
 
             $col_type = $this->get_column_type($table, $key); // get column type
-            if(!$col_type){
+            if (!$col_type) {
                 return false;
             } // error!
 
             // determine if we need to encase the value in single quotes
-            if(is_null($value)){
+            if (is_null($value)) {
                 $values .= "NULL,";
-            } elseif(substr_count(MYSQL_TYPES_NUMERIC, "$col_type ")) {
+            } elseif (substr_count(MYSQL_TYPES_NUMERIC, "$col_type ")) {
                 $values .= "$value,";
-            } elseif(substr_count(MYSQL_TYPES_DATE, "$col_type ")) {
+            } elseif (substr_count(MYSQL_TYPES_DATE, "$col_type ")) {
                 $value = $this->sql_date_format($value, $col_type); // format date
                 $values .= "'$value',";
-            } elseif(substr_count(MYSQL_TYPES_STRING, "$col_type ")) {
-                if($this->auto_slashes){
+            } elseif (substr_count(MYSQL_TYPES_STRING, "$col_type ")) {
+                if ($this->auto_slashes) {
                     $value = addslashes($value);
                 }
                 $values .= "'$value',";
@@ -565,25 +616,28 @@ class db_class{
     }
 
     // add colomn to table
-    function alter_table_add($table, $locatie){
+    function alter_table_add($table, $locatie)
+    {
         //$locatie = str_replace(' ', '_', $locatie);
         $sql = ("ALTER TABLE $table " .
-                "ADD COLUMN $locatie INT(11) " .
-                "AFTER user_id;");
+            "ADD COLUMN $locatie INT(11) " .
+            "AFTER user_id;");
         return $this->insert_sql($sql);
 
     }
 
     // remove colomn from table
-    function alter_table_drop($table, $locatie){
+    function alter_table_drop($table, $locatie)
+    {
         //$locatie = str_replace(' ', '_', $locatie);
         $sql = ("ALTER TABLE $table " .
-                "DROP COLUMN $locatie");
+            "DROP COLUMN $locatie");
         return $this->insert_sql($sql);
 
     }
 
-    function update_array($table, $data, $condition){
+    function update_array($table, $data, $condition)
+    {
 
         // Updates a row into the database from key->value pairs in an array. The
         // array passed in $data must have keys for the table's columns. You can
@@ -594,7 +648,7 @@ class db_class{
         // Returns the number or row affected or true if no rows needed the update.
         // Returns false if there is an error.
 
-        if(empty($data)){
+        if (empty($data)) {
             $this->last_error = "You must pass an array to the update_array() function.";
             return false;
         }
@@ -605,20 +659,20 @@ class db_class{
             $sql .= " $key=";
 
             $col_type = $this->get_column_type($table, $key); // get column type
-            if(!$col_type){
+            if (!$col_type) {
                 return false;
             } // error!
 
             // determine if we need to encase the value in single quotes
-            if(is_null($value)){
+            if (is_null($value)) {
                 $sql .= "NULL,";
-            } elseif(substr_count(MYSQL_TYPES_NUMERIC, "$col_type ")) {
+            } elseif (substr_count(MYSQL_TYPES_NUMERIC, "$col_type ")) {
                 $sql .= "$value,";
-            } elseif(substr_count(MYSQL_TYPES_DATE, "$col_type ")) {
+            } elseif (substr_count(MYSQL_TYPES_DATE, "$col_type ")) {
                 $value = $this->sql_date_format($value, $col_type); // format date
                 $sql .= "'$value',";
-            } elseif(substr_count(MYSQL_TYPES_STRING, "$col_type ")) {
-                if($this->auto_slashes){
+            } elseif (substr_count(MYSQL_TYPES_STRING, "$col_type ")) {
+                if ($this->auto_slashes) {
                     $value = addslashes($value);
                 }
                 $sql .= "'$value',";
@@ -626,7 +680,7 @@ class db_class{
 
         }
         $sql = rtrim($sql, ','); // strip off last "extra" comma
-        if(!empty($condition)){
+        if (!empty($condition)) {
             $sql .= " WHERE $condition";
         }
 
@@ -634,16 +688,17 @@ class db_class{
         return $this->update_sql($sql);
     }
 
-    function execute_file($file){
+    function execute_file($file)
+    {
 
         // executes the SQL commands from an external file.
 
-        if(!file_exists($file)){
+        if (!file_exists($file)) {
             $this->last_error = "The file $file does not exist.";
             return false;
         }
         $str = file_get_contents($file);
-        if(!$str){
+        if (!$str) {
             $this->last_error = "Unable to read the contents of $file.";
             return false;
         }
@@ -653,10 +708,10 @@ class db_class{
         // split all the query's into an array
         $sql = explode(';', $str);
         foreach ($sql as $query) {
-            if(!empty($query)){
+            if (!empty($query)) {
                 $r = mysql_query($query);
 
-                if(!$r){
+                if (!$r) {
                     $this->last_error = mysql_error();
                     return false;
                 }
@@ -666,19 +721,20 @@ class db_class{
 
     }
 
-    function get_column_type($table, $column){
+    function get_column_type($table, $column)
+    {
 
         // Gets information about a particular column using the mysql_fetch_field
         // function.  Returns an array with the field info or false if there is
         // an error.
 
         $r = mysql_query("SELECT $column FROM $table");
-        if(!$r){
+        if (!$r) {
             $this->last_error = mysql_error();
             return false;
         }
         $ret = mysql_field_type($r, 0);
-        if(!$ret){
+        if (!$ret) {
             $this->last_error = "Unable to get column information on $table.$column.";
             mysql_free_result($r);
             return false;
@@ -688,20 +744,22 @@ class db_class{
 
     }
 
-    function sql_date_format($value){
+    function sql_date_format($value)
+    {
 
         // Returns the date in a format for input into the database.  You can pass
         // this function a timestamp value such as time() or a string value
         // such as '04/14/2003 5:13 AM'.
 
-        if(gettype($value) == 'string'){
+        if (gettype($value) == 'string') {
             $value = strtotime($value);
         }
         return date('Y-m-d H:i:s', $value);
 
     }
 
-    function print_last_error($show_query = true){
+    function print_last_error($show_query = true)
+    {
 
         // Prints the last error to the screen in a nicely formatted error message.
         // If $show_query is true, then the last query that was executed will
@@ -709,24 +767,27 @@ class db_class{
 
         ?>
 
-        <div style="border: 1px solid red; font-size: 9pt; font-family: monospace; color: red; padding: .5em; margin: 8px; background-color: #FFE2E2">
+        <div
+            style="border: 1px solid red; font-size: 9pt; font-family: monospace; color: red; padding: .5em; margin: 8px; background-color: #FFE2E2">
             <span style="font-weight: bold">db.class.php Error:</span><br>
             <?= $this->last_error ?>
         </div>
         <?
-        if($show_query && (!empty($this->last_query))){
+        if ($show_query && (!empty($this->last_query))) {
             $this->print_last_query();
         }
 
     }
 
-    function print_last_query(){
+    function print_last_query()
+    {
 
         // Prints the last query that was executed to the screen in a nicely formatted
         // box.
 
         ?>
-        <div style="border: 1px solid blue; font-size: 9pt; font-family: monospace; color: blue; padding: .5em; margin: 8px; background-color: #E6E5FF">
+        <div
+            style="border: 1px solid blue; font-size: 9pt; font-family: monospace; color: blue; padding: .5em; margin: 8px; background-color: #E6E5FF">
             <span style="font-weight: bold">Last SQL Query:</span><br>
             <?= str_replace("\n", '<br>', $this->last_query) ?>
         </div>
@@ -735,7 +796,8 @@ class db_class{
 }
 
 //XML
-function xml($userID){
+function xml($userID)
+{
     $sql = "SELECT * FROM app_locaties WHERE actief = 1 ORDER BY RAND()";
     $result = mysql_query($sql) or die("Data not found.");
 
@@ -766,20 +828,22 @@ function xml($userID){
     echo $xml_output;
 }
 
-function maketable($active_session){
+function maketable($active_session)
+{
     $makeTable = 'CREATE TABLE ' . $active_session . ' ( ' .
-            'id INT NOT NULL AUTO_INCREMENT , ' .
-            'user_id int(5) default NULL , ' .
-            'locatie int(5) default NULL , ' .
-            'cijfer int(2) default NULL , ' .
-            'PRIMARY KEY(id))';
+        'id INT NOT NULL AUTO_INCREMENT , ' .
+        'user_id int(5) default NULL , ' .
+        'locatie int(5) default NULL , ' .
+        'cijfer int(2) default NULL , ' .
+        'PRIMARY KEY(id))';
 
     $result = mysql_query($makeTable);
 }
 
 // functie om de array te sorteren
 
-function subval_sort($a, $subkey){
+function subval_sort($a, $subkey)
+{
     foreach ($a as $k => $v) {
         $b[$k] = strtolower($v[$subkey]);
     }
@@ -791,7 +855,8 @@ function subval_sort($a, $subkey){
 }
 
 
-function eindscore_totaal(){
+function eindscore_totaal()
+{
     $locaties = array();
     $totaalxml = "<eindscore>";
     $rn = 1;
@@ -809,10 +874,10 @@ function eindscore_totaal(){
         while ($row2 = mysql_fetch_assoc($r2)) {
 
             array_push($locaties, array(
-                    'locatie_id' => $row['id'],
-                    'locatie_naam' => $row['locatie'],
-                    'gemiddelde' => $row2['gemiddeld'], 1,
-                    'thumb' => $row['thumb']
+                'locatie_id' => $row['id'],
+                'locatie_naam' => $row['locatie'],
+                'gemiddelde' => $row2['gemiddeld'], 1,
+                'thumb' => $row['thumb']
             ));
 
 
@@ -834,7 +899,8 @@ function eindscore_totaal(){
 }
 
 
-function eindscore_user_totaal(){
+function eindscore_user_totaal()
+{
     $locaties = array();
     $xmltotaal = "<uweindscore>";
 
@@ -853,10 +919,10 @@ function eindscore_user_totaal(){
         while ($row2 = mysql_fetch_assoc($r2)) {
 
             array_push($locaties, array(
-                    'locatie_id' => $row['id'],
-                    'locatie_naam' => $row['locatie'],
-                    'gemiddelde' => $row2['gemiddeld'], 1,
-                    'thumb' => $row['thumb']
+                'locatie_id' => $row['id'],
+                'locatie_naam' => $row['locatie'],
+                'gemiddelde' => $row2['gemiddeld'], 1,
+                'thumb' => $row['thumb']
             ));
 
 
@@ -876,7 +942,8 @@ function eindscore_user_totaal(){
     return $xmltotaal;
 }
 
-function count_test(){
+function count_test()
+{
     $sql = "SELECT * FROM app_stemmentotaal";
     $r = mysql_query($sql);
     $aantal = mysql_num_rows($r);

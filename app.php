@@ -2,7 +2,7 @@
 require_once('rest/db.class.php');
 $db = new db_class;
 
-if(!$db->connect()){
+if (!$db->connect()) {
     $db->print_last_error(false);
 }
 
@@ -27,52 +27,19 @@ if(!$db->connect()){
             <div class="col-md-8 well">
 
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
-                    ------------ test repreat -------------
-
-{{formData[0]}}
                     <div ng-repeat="element in formData">
-                        <select ng-model="nawformCrtl.naw.voorkeur" ng-options="item.value as item.label for item in element">
-                            <option value="">-- kies een voorkeur --</option>
-                        </select>
-                    </div>
-                    ------------ eind ------
-                    <div>
-
                         <div class="form-group">
-                            <label for="vraag1">kies een voorkeur</label>
-
-                            <select ng-model="nawformCrtl.naw.voorkeur" ng-options="item.value as item.label for item in formData.voorkeur">
-                                <option value="">-- kies een voorkeur --</option>
+                            <label for="vraag1"> {{element.label}}</label>
+                            <select ng-model="nawformCrtl.naw[element.veld]"
+                                    ng-options="item.value as item.label for item in element.value">
+                                <option value=""> -- Maak een keuze -- </option>
                             </select>
-
                         </div>
-
-                    </div>
-
-                    ------------------
-                    <div class="form-group">
-                        <label for="vraag1">een vraag</label>
-
-                        <select ng-model="age" ng-options="age.name for age in ages">
-                            <option value="">-- kies een leeftijd --</option>
-                        </select>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input ng-model="nawformCrtl.naw.box" type="checkbox"> Check me out
-                        </label>
                     </div>
 
                     <button type="submit" class="btn btn-default">Submit</button>
 
                 </form>
-
-                {{nawformCrtl.naw.naam}},
-                {{nawformCrtl.naw.email}},
-                {{nawformCrtl.naw.vraag}},
-                {{nawformCrtl.naw.voorkeur}},
-                {{state}}
-
                 <br/>
             </div>
         </div>

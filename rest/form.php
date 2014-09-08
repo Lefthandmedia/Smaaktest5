@@ -6,19 +6,19 @@
 require_once('db.class.php');
 $db = new db_class;
 // Open up the database connection.
-if(!$db->connect()){
+if (!$db->connect()) {
     $db->print_last_error(false);
 }
 //=======================
 
-$geboortejaar = array('label' => 'geboortejaar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
-$sex = array('label' => 'geslacht', 'value' => $db->getPulldown("SELECT * FROM user_geslacht"));
-$voorkeur = array('label' => 'voorkeur', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
-$ikben = array('label' => 'ikben', 'value' => $db->getPulldown("SELECT * FROM user_ikben"));
-$texel = array('label' => 'texel', 'value' => $db->getPulldown("SELECT * FROM user_texel"));
-$duurzaamheid = array('label' => 'duurzaamheid', 'value' => $db->getPulldown("SELECT * FROM user_duurzaamheid"));
-$mijnband = array('label' => 'mijnband', 'value' => $db->getPulldown("SELECT * FROM user_mijnband"));
 
+$sex = array('veld' => 'geslacht', 'label' => 'Geslacht', 'value' => $db->getPulldown("SELECT * FROM user_geslacht"));
+$voorkeur = array('veld' => 'voorkeur', 'label' => 'Mijn voorkeur gaat uit naar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
+$ikben = array('veld' => 'ikben', 'label' => 'Ik zou mezelf omschrijven als een…', 'value' => $db->getPulldown("SELECT * FROM user_ikben"));
+$texel = array('veld' => 'texel', 'label' => 'Texel heeft een sterke identiteit..', 'value' => $db->getPulldown("SELECT * FROM user_texel"));
+$duurzaamheid = array('veld' => 'duurzaamheid', 'label' => 'Duurzaamheid versterkt toerisme op Texel..', 'value' => $db->getPulldown("SELECT * FROM user_duurzaamheid"));
+$mijnband = array('veld' => 'mijnband', 'label' => 'Mijn belangrijkste binding met Texel is..', 'value' => $db->getPulldown("SELECT * FROM user_mijnband"));
+$geboortejaar = array('veld' => 'geboortejaar', 'label' => 'Geboortejaar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
 
 $form = array($geboortejaar, $sex, $voorkeur, $ikben, $texel, $duurzaamheid, $mijnband);
 
