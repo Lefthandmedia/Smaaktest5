@@ -28,22 +28,9 @@
         //--- haal alle vragen op op basis van NAWid ---
         df.setQuiz = function (dat) {
             df.data = dat.entries;
-            
             console.log(dat.entries);
         };
 
-        df.locaties = function () {
-            return data
-        };
-
-        //--- stem op een locatie
-        df.votes = function (vote) {
-            // ZET DE VOTE HTTP HIER
-        };
-
-        df.test = function (t) {
-            console.log('df.test' + t);
-        };
 
         df.getQuiz = function () {
             return df.data;

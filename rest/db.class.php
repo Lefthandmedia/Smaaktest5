@@ -582,7 +582,6 @@ class db_class
 
     function insert_array($table, $data)
     {
-
         // Inserts a row into the database from key->value pairs in an array. The
         // array passed in $data must have keys for the table's columns. You can
         // not use any MySQL functions with string and date types with this

@@ -7,45 +7,45 @@
     //-------------- Quiz controller------------------
     app.controller('quizController', ['$rootScope', '$scope', '$http', 'dataFactory', function ($rootScope, $scope, $http, dataFactory) {
         qc = {};
-        this.df = dataFactory;
         dit = this;
         $scope.startup = true;
-        $scope.df = dataFactory;
-        $scope.actual = -1;
-        $scope.actualPic = '/pictures/Biogewas.jpg';
+        var df = dataFactory;
+        $scope.actual = 0;
+        $scope.actualPic = '/locations/Biogewas.jpg';
+        $scope.voteVO = {};
 
-        qc.pictures = [];
+        qc.locations = [];
 
         qc.startQuiz = function () {
             $scope.startup = false;
-            console.log('startup');
-            console.log(qc.pictures);
-            refreshData();
-            console.log(qc.pictures);
+            dit.refreshData();
+            dit.updateLocation();
         };
 
 
         qc.vote = function (v) {
-            console.log(dit);
+
+           //  send in the vote
             $scope.actual++;
-            if($scope.actual++ > qc.pictures.length){
+            if ($scope.actual > qc.locations.length) {
                 $rootScope.step = 3;
-            }else{
-                dit.updatePic();
+            } else {
+                dit.updateLocation();
             }
 
         };
 
         //------- private -----------
 
-        function refreshData() {
-            qc.pictures = $scope.df.getQuiz();
+        this.refreshData = function () {
+            qc.locations = df.getQuiz();
         };
 
-        this.updatePic = function () {
-            var url = qc.pictures[$scope.actual]['url'];
-            console.log(url);
-            $scope.actualPic = url;
+        this.updateLocation = function () {
+            console.log("updateLocation");
+            var actlocation = qc.locations[$scope.actual];
+            console.log(actlocation);
+            $scope.actualLocation = actlocation;
         }
 
         return qc;

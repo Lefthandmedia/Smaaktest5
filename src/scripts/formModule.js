@@ -8,51 +8,34 @@
 
     //---------------- FORMCONTROLLER ---------------
     app.controller('formController', [ '$rootScope', '$scope', '$http', 'dataFactory', function ($rootScope, $scope, $http, dataFactory) {
-
-        this.naw = {};
-
-        $scope.df = dataFactory;
+        var dit = this;
         $rootScope.step = 1;
+
+        $scope.naw = {};
+        $scope.df = dataFactory;
         $scope.formData = [];
 
-        var dit = this;
-
-
-        //--- make age dropdown ---
-        $scope.ages = [];
-        for (var i = 0; i < 99; i++) {
-            $scope.ages.push({'name': i, 'value': i})
-        }
         //----------------------
-        var getForm = function (dit) {
-
+        this.getForm = function (dit) {
+            console.log('getForm');
             $http({method: 'get', url: '/rest/form.php'})
                 .success(function (data) {
                     $scope.formData = data.form;
-
                 })
                 .error(function (data) {
                     // what to do on err
                 })
         };
 
-        getForm();
-
         //---------- verstuur NAW form---------------
         this.submit = function () {
-            $http({method: 'get', url: '/rest/submit.php'}).success(function (data) {
-                console.log(data);
-                $scope.naw = data;
+            console.log($scope.naw);
+            $http.post('/rest/submit.php', $scope.naw).success(function (data) {
+                // $scope.naw = data;
                 $scope.df.setQuiz(data);
                 $rootScope.step = 2;
             });
         };
     }]);
     //---- end FormController
-
-    this.service = function (data) {
-        console.log('Test root');
-    };
-
-
 })();

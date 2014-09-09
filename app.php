@@ -21,22 +21,23 @@ if (!$db->connect()) {
 <body>
 
 
-<section id="nawform" ng-controller="formController as nawformCrtl" ng-show="step === 1">
+<section id="nawform" ng-controller="formController as nawformCrtl" ng-show="step === 1" ng-init="nawformCrtl.getForm()">
     <div class="container">
         <div class="row">
             <div class="col-md-8 well">
 
                 <form name="nawform" ng-submit="nawformCrtl.submit()" novalidate>
+
                     <div ng-repeat="element in formData">
                         <div class="form-group">
-                            <label for="vraag1"> {{element.label}}</label>
-                            <select ng-model="nawformCrtl.naw[element.veld]"
+                            <label for="vraag1"> {{element.label}} {{element.veld}}</label>
+                            <select ng-model="naw[element.veld]"
                                     ng-options="item.value as item.label for item in element.value">
                                 <option value=""> -- Maak een keuze -- </option>
                             </select>
                         </div>
                     </div>
-
+                    {{naw | json}}
                     <button type="submit" class="btn btn-default">Submit</button>
 
                 </form>
@@ -58,6 +59,9 @@ if (!$db->connect()) {
                 </div>
 
                 <div ng-show="!startup">
+
+                   xx {{actualLocation}}xx
+                   xx {{actualLocation.locatie}}xx
                     <div class="btn-group">
                         <button type="button" class="btn btn-default" ng-click="quizCtrl.vote(1)">1</button>
                         <button type="button" class="btn btn-default" ng-click="quizCtrl.vote(2)">2</button>
@@ -70,7 +74,7 @@ if (!$db->connect()) {
                         <button type="button" class="btn btn-default" ng-click="quizCtrl.vote(9)">9</button>
                         <button type="button" class="btn btn-default" ng-click="quizCtrl.vote(10)">10</button>
                     </div>
-                    <div><img ng-src="{{actualPic}}" alt=""/></div>
+                    <div><img ng-src="/uploads/{{actualLocation.photos[0]}}" alt=""/></div>
 
                 </div>
             </div>
