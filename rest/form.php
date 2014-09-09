@@ -12,13 +12,13 @@ if (!$db->connect()) {
 //=======================
 
 
-$sex = array('veld' => 'geslacht', 'label' => 'Geslacht', 'value' => $db->getPulldown("SELECT * FROM user_geslacht"));
-$voorkeur = array('veld' => 'voorkeur', 'label' => 'Mijn voorkeur gaat uit naar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
-$ikben = array('veld' => 'ikben', 'label' => 'Ik zou mezelf omschrijven als een…', 'value' => $db->getPulldown("SELECT * FROM user_ikben"));
-$texel = array('veld' => 'texel', 'label' => 'Texel heeft een sterke identiteit..', 'value' => $db->getPulldown("SELECT * FROM user_texel"));
-$duurzaamheid = array('veld' => 'duurzaamheid', 'label' => 'Duurzaamheid versterkt toerisme op Texel..', 'value' => $db->getPulldown("SELECT * FROM user_duurzaamheid"));
-$mijnband = array('veld' => 'mijnband', 'label' => 'Mijn belangrijkste binding met Texel is..', 'value' => $db->getPulldown("SELECT * FROM user_mijnband"));
-$geboortejaar = array('veld' => 'geboortejaar', 'label' => 'Geboortejaar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"));
+$sex = array('veld' => 'geslacht', 'label' => 'Geslacht', 'value' => $db->getPulldown("SELECT * FROM user_geslacht"),"type"=>"list");
+$voorkeur = array('veld' => 'voorkeur', 'label' => 'Mijn voorkeur gaat uit naar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"),"type"=>"list");
+$ikben = array('veld' => 'ikben', 'label' => 'Ik zou mezelf omschrijven als een…', 'value' => $db->getPulldown("SELECT * FROM user_ikben"),"type"=>"list");
+$texel = array('veld' => 'texel', 'label' => 'Texel heeft een sterke identiteit..', 'value' => $db->getPulldown("SELECT * FROM user_texel"),"type"=>"list");
+$duurzaamheid = array('veld' => 'duurzaamheid', 'label' => 'Duurzaamheid versterkt toerisme op Texel..', 'value' => $db->getPulldown("SELECT * FROM user_duurzaamheid"),"type"=>"list");
+$mijnband = array('veld' => 'mijnband', 'label' => 'Mijn belangrijkste binding met Texel is..', 'value' => $db->getPulldown("SELECT * FROM user_mijnband"),"type"=>"list");
+$geboortejaar = array('veld' => 'geboortejaar', 'label' => 'Geboortejaar', 'value' => $db->getPulldown("SELECT * FROM user_voorkeur"),"type"=>"list");
 
 $form = array($geboortejaar, $sex, $voorkeur, $ikben, $texel, $duurzaamheid, $mijnband);
 

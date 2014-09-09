@@ -19,9 +19,9 @@
         qc.startQuiz = function () {
             $scope.startup = false;
             console.log('startup');
-            console.log($scope.pictures);
+            console.log(qc.pictures);
             refreshData();
-            console.log($scope.pictures);
+            console.log(qc.pictures);
         };
 
 

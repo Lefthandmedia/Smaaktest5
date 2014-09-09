@@ -27,8 +27,9 @@
 
         //--- haal alle vragen op op basis van NAWid ---
         df.setQuiz = function (dat) {
-            df.data = dat;
-            console.log('setQuiz' + df.data);
+            df.data = dat.entries;
+            
+            console.log(dat.entries);
         };
 
         df.locaties = function () {

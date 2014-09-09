@@ -40,9 +40,8 @@
 
         //---------- verstuur NAW form---------------
         this.submit = function () {
-            console.log(dit.naw);
-
             $http({method: 'get', url: '/rest/submit.php'}).success(function (data) {
+                console.log(data);
                 $scope.naw = data;
                 $scope.df.setQuiz(data);
                 $rootScope.step = 2;

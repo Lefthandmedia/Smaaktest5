@@ -89,6 +89,66 @@ class db_class
         return $this->db_link; // success
     }
 
+
+    /* =====================================================
+     *
+     *
+     * -------------- LHM  port naar HTML JSON -------------
+     *
+     *
+     =======================================================*/
+    function getPulldown($sql)
+    {
+        $r = $this->select($sql);
+        $res = array();
+        while ($row = mysql_fetch_assoc($r)) {
+            $res[] = array('label' => $row['label'], 'value' => $row['id']);
+        }
+        // $object = json_decode(json_encode($res), FALSE);
+        return $res;
+    }
+
+    function getPictures($userID)
+    {
+        $sql = "SELECT * FROM app_locaties WHERE actief = 1 ORDER BY RAND()";
+        $result = mysql_query($sql) or die("Data not found.");
+        $entries = array();
+        while ($row = mysql_fetch_assoc($result)) {
+
+            $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = " . $row['id'] . " ORDER BY id ASC";
+            $result2 = mysql_query($sql2) or die("Data not found.");
+            $rn = 0;
+            $photos = array();
+            while ($row2 = mysql_fetch_assoc($result2)) {
+                $photos[$rn] = $row2['photo_src'];
+            }
+            $entrie = array("id" => $row['id'], "locatie" => $row['locatie'],"photos"=>$photos);
+            array_push($entries,$entrie);
+        }
+        return array('entries' => $entries, "sessie"=>$userID);
+    }
+
+    /*
+     * ================== END PORT ==========================
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     function select_db($db = '')
     {
 
@@ -276,49 +336,6 @@ class db_class
         echo "</table></div>\n";
     }
 
-    /* =====================================================
-     *
-     *
-     * -------------- LHM  port naar HTML JSON -------------
-     *
-     *
-     =======================================================*/
-    function getPulldown($sql)
-    {
-        $r = $this->select($sql);
-        $res = array();
-        while ($row = mysql_fetch_assoc($r)) {
-            $res[] = array('label' => $row['label'], 'value' => $row['id']);
-        }
-        // $object = json_decode(json_encode($res), FALSE);
-        return $res;
-    }
-
-    function getPictures($userID)
-    {
-        $sql = "SELECT * FROM app_locaties WHERE actief = 1 ORDER BY RAND()";
-        $result = mysql_query($sql) or die("Data not found.");
-        $entries = array();
-        while ($row = mysql_fetch_assoc($result)) {
-
-            $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = " . $row['id'] . " ORDER BY id ASC";
-            $result2 = mysql_query($sql2) or die("Data not found.");
-            $rn = 0;
-            $photos = array();
-            while ($row2 = mysql_fetch_assoc($result2)) {
-                $photos[$rn] = $row2['photo_src'];
-            }
-            $entrie = array("id" => $row['id'], "locatie" => $row['locatie'],"photos"=>$photos);
-            array_push($entries,$entrie);
-        }
-        return array('entries' => $entries, "sessie"=>$userID);
-    }
-
-
-
-    /*
-     * ================== END PORT ==========================
-     */
     //======================== pulldown ===========================
     function pulldown_query($sql, $name)
     {
