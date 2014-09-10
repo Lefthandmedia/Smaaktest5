@@ -29,10 +29,13 @@ $_SESSION['user_id'] = $id;
 
 // ---- create new session -------
 $data2 = array('user_id' => $id);
-$id2 = $db->insert_array('app_stemmentotaal', $data2);
+
+$sessionid = $db->insert_array('app_stemmentotaal', $data2);
 $active_session = "_" . $id;
 
 $locatiesJSON = $db->getPictures($id);
 
-echo json_encode($locatiesJSON);
+
+
+echo json_encode(array('locaties'=>$locatiesJSON, 'user_id'=>$id));
 
