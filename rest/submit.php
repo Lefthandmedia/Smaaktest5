@@ -34,11 +34,5 @@ $active_session = "_" . $id;
 
 $locatiesJSON = $db->getPictures($id);
 
-//
-//$dat = [['url' => '/locations/Biogewas.jpg', 'name' => 'plaatje1'],
-//    ['url' => '/locations/Biologischrestaurant.jpg', 'name' => 'plaatje2'],
-//    ['url' => '/locations/Biologischrestaurant1.jpg', 'name' => 'plaatje3'],
-//    ['url' => '/locations/Biologischrestaurant2.jpg', 'name' => 'plaatje4']];
-
 echo json_encode($locatiesJSON);
 
