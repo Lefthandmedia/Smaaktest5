@@ -15,6 +15,7 @@ var gulp = require('gulp'),
 	notify = require('gulp-notify'),
 	cache = require('gulp-cache'),
 	livereload = require('gulp-livereload'),
+	bowerpath = 'bower_components/',
 	jsdest = '_js',
 	cssdest = '_css';
 
@@ -24,10 +25,24 @@ gulp.task('styles', function() {
 		.pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
 		//.pipe(gulp.dest(cssdest))
 		.pipe(rename({suffix: '.min'}))
-		.pipe(minifycss())
+		//.pipe(minifycss())
 		.pipe(gulp.dest(cssdest))
 		//.pipe(notify({ message: 'Styles task complete' }))
 		;
+});
+gulp.task('libs', function() {
+	return gulp.src([bowerpath + 'jquery/dist/jquery.js',
+	                 bowerpath + 'angular/angular.js',
+	                 bowerpath + 'angular-route/angular-route.js'])
+		// .pipe(jshint('.jshintrc'))
+		//.pipe(jshint.reporter('default'))
+		.pipe(concat('libs.js'))
+		.pipe(gulp.dest(jsdest))
+		.pipe(rename({suffix: '.min'}))
+		.pipe(uglify())
+		.pipe(gulp.dest(jsdest))
+		//.pipe(notify({ message: 'Scripts task complete' }))
+        ;
 });
 
 gulp.task('scripts', function() {
@@ -53,7 +68,7 @@ gulp.task('app', function() {
 });
 
 gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'app', 'watch');
+	gulp.start('libs', 'styles', 'app', 'watch');
 });
 
 gulp.task('clean', function() {
