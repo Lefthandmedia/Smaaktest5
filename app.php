@@ -83,7 +83,7 @@ if(!$db->connect()){
                                 <label for="vraag1"> {{element.label}} </label>
                                 <select ng-model="naw[element.veld]"
                                         ng-options="item.value as item.label for item in element.value">
-                                    <option value=""> -- Maak een keuze --</option>
+                                    <option value=""> -- Maak een keuze -- </option>
                                 </select>
                             </div>
                         </div>

@@ -14,7 +14,7 @@ if (!$db->connect()) {
 $json = json_decode(file_get_contents("php://input"));
 
  // inserten van de cijfers
-   $data = array('_'.$json->locatie .'' => $json->cijfer);
+   $data = array( $json->location  => $json->cijfer);
 
    $rows = $db->update_array('app_stemmentotaal', $data, "user_id=".$json->user_id."");
    if (!$rows) $db->print_last_error(false);

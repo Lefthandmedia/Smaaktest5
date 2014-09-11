@@ -12,7 +12,6 @@ if (!$db->connect()) {
 
 $json = json_decode(file_get_contents("php://input"));
 
-
 $data = array(
     'user_geb_datum' => $json->geboortejaar,
     'user_voorkeur' => $json->voorkeur,
@@ -22,8 +21,13 @@ $data = array(
     'user_duurzaamheid' => $json->duurzaamheid,
     'user_mijnband' => $json->mijnband
 );
+
 //--- create user ------
+
 $id = $db->insert_array('users', $data);
+if($id==false){
+    echo $db->last_error;
+}
 
 $_SESSION['user_id'] = $id;
 

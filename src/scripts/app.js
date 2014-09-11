@@ -29,22 +29,24 @@
 		df.const.result = "START_QUIZ";
 		df.data = [];
 
-		df.getForm = function() {
-			console.log('df.getform');
-			return $http({method: 'get', url: '/rest/form.php'})
-				.success(function(data) {
-					         console.log(data.form);
-					         return  data.form;
-				         })
-				.error(function(data) {
-					       return 'error';
-					       // what to do on err
-				       })
-		};
+//		df.getForm = function() {
+//			console.log('df.getform');
+//			return $http({method: 'get', url: '/rest/form.php'})
+//				.success(function(data) {
+//					         console.log(data.form);
+//					         return  data.form;
+//				         })
+//				.error(function(data) {
+//					       return 'error';
+//					       // what to do on err
+//				       })
+//		};
 
 		df.fetchQuiz = function(nawObj) {
 			console.log('FETCh QUIZ');
+			console.log(nawObj);
 			$http.post('/rest/submit.php', nawObj).success(function(data) {
+                console.log(data);
 				df.setQuiz(data);
 
 			});
@@ -63,7 +65,7 @@
 		};
 
 		df.vote = function(vote) {
-			// vote.user_id = df.usersession;
+			vote.user_id = df.usersession;
 
 			console.log(vote);
 

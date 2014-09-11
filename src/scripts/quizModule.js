@@ -19,7 +19,7 @@
 		qc.locations = [];
 
 		qc.vote = function(v) {
-			df.vote({cijfer: v, location: actualLocation.locatie});
+			df.vote({cijfer: v, location: '_'+ actualLocation.id});
 		};
 
 		$scope.$on(df.const.start, function() {
