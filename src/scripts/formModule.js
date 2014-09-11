@@ -32,8 +32,7 @@
 			var d = df;
 			$http.post('/rest/submit.php', $scope.naw).success(function(data) {
 				d.setQuiz(data);
-				$rootScope.step = 3;
-				$rootScope.$broadcast(d.startvar);
+
 			});
 		};
 	}]);

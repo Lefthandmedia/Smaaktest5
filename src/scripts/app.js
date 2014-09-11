@@ -22,17 +22,20 @@
 
 	//-------- quizFactory --------
 	app.factory('dataFactory', ['$rootScope', '$http' , function($rootScope, $http) {
-		var df = {};
+		var df = {const:{}};
 
-		df.startvar = "START_QUIZ";
-		df.nextq = "NEXT_QUESTION";
-		df.startvar = "START_QUIZ";
+
+		df.const.start = "START_QUIZ";
+		df.const.nextq = "NEXT_QUESTION";
+		df.const.result = "START_QUIZ";
 		df.data = [];
 
 		//--- haal alle vragen op op basis van NAWid ---
 		df.setQuiz = function(dat) {
 			df.usersession = dat.user_id;
 			df.data = dat.locaties.entries;
+			$rootScope.step = 3;
+			$rootScope.$broadcast(df.const.start);
 
 		};
 

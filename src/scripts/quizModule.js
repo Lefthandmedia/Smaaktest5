@@ -8,21 +8,17 @@
 	app.controller('quizController', ['$rootScope', '$scope', '$http', 'dataFactory', function($rootScope, $scope, $http, dataFactory) {
 		qc = {};
 		dit = this;
+		df = dataFactory;
 		$scope.startup = true;
 		$scope.actual = 0;
 		$scope.actualPic = '/locations/Biogewas.jpg';
 		$scope.voteVO = {};
-
-		var df = dataFactory;
-		var actualLocation = {};
-		var actualindex;
+		$scope.df = df;
 
 		qc.locations = [];
 
 		qc.vote = function(v) {
-			//  send in the vote
 			df.vote(v);
-
 			$scope.actual++;
 			if($scope.actual > qc.locations.length)
 			{
@@ -35,12 +31,15 @@
 
 		};
 
-		$scope.$on('START_QUIZ', function() {
+		$scope.$on('START_QUIZ', function(evt) {
+			var dff = df;
+			console.log(evt);
 			dit.refreshData();
 			dit.updateLocation();
 		});
 
-		$scope.$on(df.nextq, function() {
+		$scope.$on(undefined, function(evt) {
+			console.log(evt);
 			console.log('NEXT Q');
 		});
 
