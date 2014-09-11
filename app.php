@@ -87,7 +87,7 @@ if(!$db->connect()){
                                 </select>
                             </div>
                         </div>
-                        <!--                        {{naw | json}}-->
+                        <!-- {{naw | json}} -->
                         <button type="submit" class="btn btn-default">Submit</button>
 
                     </form>
@@ -96,7 +96,6 @@ if(!$db->connect()){
             </div>
         </div>
     </section>
-
 
     <section id="quiz" ng-controller="quizController as quizCtrl" ng-show="step === 3">
         <div class="container">
