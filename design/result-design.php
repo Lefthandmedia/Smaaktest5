@@ -18,36 +18,11 @@ include 'HEAD.php';
                         <input type="text"/>  <button type="submit" class="btn btn-default">Submit</button>
                         <div>Let op: deze e-mailgegevens en de gegevens die bij de peiling ingevuld worden zijn niet gekoppeld</div>
                     </form>
-
                 </div>
 
                 <div class="col-md-4 toplist">
                     <div class=" "><h2>Algemene top3</h2>
-                        <!--1 row-->
-                        <div class="row toplist-row">
-                            <div class="col-md-4 col-sm-6">
-                                <img src="/uploads/1.jpg" alt=""/>
-                            </div>
-                            <div class="col-md-8 col-sm-6">
-                                locatienaam
-                                gemiddled cijfer: 6,7
-                            </div>
-                        </div>
-                        <!--end-->
-
-                        <!--1 row-->
-                        <div class="row toplist-row">
-                            <div class="col-md-4 col-sm-6">
-                                <img src="/uploads/1.jpg" alt=""/>
-                            </div>
-                            <div class="col-md-8 col-sm-6">
-                                locatienaam
-                                gemiddled cijfer: 6,7
-                            </div>
-                        </div>
-                        <!--end-->
-
-                        <!--1 row-->
+                        <!--1 row loop this -->
                         <div class="row toplist-row">
                             <div class="col-md-4 col-sm-6">
                                 <img src="/uploads/1.jpg" alt=""/>
@@ -72,39 +47,10 @@ include 'HEAD.php';
                             gemiddled cijfer: 6,7
                         </div>
                     </div>
-                    <!--end-->
-
-                    <!--1 row-->
-                    <div class="row toplist-row">
-                        <div class="col-md-4">
-                            <img src="/uploads/1.jpg" alt=""/>
-                        </div>
-                        <div class="col-md-8">
-                            locatienaam
-                            gemiddled cijfer: 6,7
-                        </div>
-                    </div>
-                    <!--end-->
-
-                    <!--1 row-->
-                    <div class="row toplist-row">
-                        <div class="col-md-4">
-                            <img src="/uploads/1.jpg" alt=""/>
-                        </div>
-                        <div class="col-md-8">
-                            locatienaam
-                            gemiddled cijfer: 6,7
-                        </div>
-                    </div>
-                    <!--end-->
-
-
+                    <!--end -->
                 </div>
-
-
             </div>
         </div>
-
     </section>
 
 

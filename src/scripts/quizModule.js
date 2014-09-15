@@ -10,11 +10,8 @@
 		var _this = this;
 		var df = dataFactory;
 		var actualLocation = {};
-		//	$scope.startup = true;
+
 		$scope.actual = 0;
-		//	$scope.actualPic = '/locations/Biogewas.jpg';
-		//	$scope.voteVO = {};
-		//	$scope.df = df;
 
 		qc.locations = [];
 
@@ -28,14 +25,17 @@
 		});
 
 		$scope.$on(df.const.nextq, function(evt) {
-			console.log(evt);
-			console.log(df.const.nextq);
 			$scope.actual++;
 
-			if($scope.actual > qc.locations.length)
+            console.log('-----------------');
+            console.log($scope.actual);
+            console.log(qc.locations.length);
+
+            //---- TEMP LOOP DOWN ---
+            // $scope.actual >= qc.locations.length
+			if($scope.actual >= 5)
 			{
-				$rootScope.step = 4;
-				$rootScope.$broadcast(df.const.result);
+				df.getResult();
 			} else
 			{
 				_this.updateLocation();
@@ -52,7 +52,7 @@
 		this.updateLocation = function() {
 			actualLocation = qc.locations[$scope.actual];
 			$scope.actualLocation = actualLocation;
-		}
+		};
 
 		return qc;
 	}]);

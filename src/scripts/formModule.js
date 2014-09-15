@@ -14,13 +14,6 @@
 		$scope.formData = [];
 		$scope.naw = {};
 
-//		this.getForm = function() {
-//			console.log('getform');
-//			$scope.formData = df.getForm();
-//			console.log('last');
-//			console.log($scope.formData);
-//		};
-
 		//----------------------
 		this.getForm = function(dit) {
 			console.log('getForm');

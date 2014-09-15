@@ -5404,6 +5404,7 @@ a.label:hover, a.label:focus {
 /*  scss file  */
 #footer {
   margin-top: 40px;
+  background-image: url("../images/footerBG.gif");
 }
 #footer a {
   padding: 0;

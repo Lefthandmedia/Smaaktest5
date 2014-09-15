@@ -10,7 +10,7 @@ if (!$db->connect()) {
 }
 //=======================
 
-$json = json_decode(file_get_contents("php://input"));
+
 
 $data = array(
     'user_geb_datum' => $json->geboortejaar,

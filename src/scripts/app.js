@@ -5,7 +5,7 @@
 	// record
 
 (function() {
-	var app = angular.module('smaaktest5', ['quizModule', 'formModule'])
+	var app = angular.module('smaaktest5', ['quizModule', 'formModule','resultModule'])
 		.value('step', 1);
 
 
@@ -26,25 +26,11 @@
 		var df = {const: {}};
 		df.const.start = "START_QUIZ";
 		df.const.nextq = "NEXT_QUESTION";
-		df.const.result = "START_QUIZ";
+		df.const.result = "RESULT_QUIZ";
 		df.data = [];
-
-//		df.getForm = function() {
-//			console.log('df.getform');
-//			return $http({method: 'get', url: '/rest/form.php'})
-//				.success(function(data) {
-//					         console.log(data.form);
-//					         return  data.form;
-//				         })
-//				.error(function(data) {
-//					       return 'error';
-//					       // what to do on err
-//				       })
-//		};
+        df.result = [];
 
 		df.fetchQuiz = function(nawObj) {
-			console.log('FETCh QUIZ');
-			console.log(nawObj);
 			$http.post('/rest/submit.php', nawObj).success(function(data) {
                 console.log(data);
 				df.setQuiz(data);
@@ -54,10 +40,7 @@
 
 		//--- haal alle vragen op op basis van NAWid ---
 		df.setQuiz = function(dat) {
-			console.log(dat);
-
 			df.usersession = dat.user_id;
-
 			df.data = dat.locaties.entries;
 			$rootScope.step = 3;
 			$rootScope.$broadcast(df.const.start);
@@ -70,11 +53,19 @@
 			console.log(vote);
 
 			$http.post('/rest/vote.php', vote).success(function(data) {
-				console.log(data);
-				console.log('test' + df.const.nextq);
 				$rootScope.$broadcast(df.const.nextq);
 			});
 		}
+        df.getResult = function(){
+            $rootScope.step = 4;
+
+            $http.post('/rest/result.php', {id:df.usersession}).success(function(data) {
+                console.log(data);
+                console.log('test' + df.const.result);
+                df.result = data;
+                $rootScope.$broadcast(df.const.result,data);
+            });
+        }
 
 
 		df.getQuiz = function() {
