@@ -2,35 +2,34 @@
  * @author Lefthandmedia <ralph@lefthandmedia.com>
  */
 
-(function () {
+(function() {
 
-    var app = angular.module('formModule',[]);
+	var app = angular.module('formModule', []);
 
-    //---------------- FORMCONTROLLER ---------------
-    app.controller('formController', [ '$scope', '$http', 'dataFactory', function ($scope, $http, dataFactory) {
-        this.naw = {};
-        $scope.df = dataFactory;
-        dit = this;
+	//---------------- FORMCONTROLLER ---------------
+	app.controller('formController', [ '$rootScope', '$scope', '$http', 'dataFactory', function($rootScope, $scope, $http, dataFactory) {
+		var _this = this;
+		var df = dataFactory;
+		$rootScope.step = 1;
+		$scope.formData = [];
+		$scope.naw = {};
 
+		//----------------------
+		this.getForm = function(dit) {
+			console.log('getForm');
+			$http({method: 'get', url: '/rest/form.php'})
+				.success(function(data) {
+					         $scope.formData = data.form;
+				         })
+				.error(function(data) {
+					       // what to do on err
+				       })
+		};
 
-        //--- make age dropdown ---
-        $scope.ages = [];
-        for (var i = 0; i < 99; i++) {
-            $scope.ages.push({'name': i, 'value': i})
-        }
-
-        //---------- verstuur NAW form---------------
-        this.submit = function () {
-            console.log(dit.naw);
-
-            $http({method:'get',url:'/submit.php'}).success(function(data){
-                $scope.naw = data;
-                $scope.df.setQuiz(data);
-                // console.log(data);
-            });
-        };
-    }]);
-    //---- end FormController
-
-
+		//---------- verstuur NAW form---------------
+		this.submit = function() {
+			df.fetchQuiz($scope.naw);
+		};
+	}]);
+	//---- end FormController
 })();

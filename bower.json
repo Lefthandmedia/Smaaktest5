@@ -1,0 +1,25 @@
+{
+	"name": "smaaktestHTML5",
+	"version": "0.0.1",
+	"authors": [
+		"lefthandmedia <bob@lefthandmedia.com>"
+	],
+	"description": "angular smaaktest",
+	"main": "_js",
+	"moduleType": [
+		"amd"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"bootstrap": "~3.2.0",
+		"angular": "~1.2.22",
+		"angular-route": "~1.2.x"
+	}
+}

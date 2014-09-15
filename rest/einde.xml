@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eindscore>
+
+	<item id='1'>
+		<naam><![CDATA[naam van de locatie]]></naam>
+		<cijfer><![CDATA[4,5]]></cijfer>
+		</imagesrc='dummy.jpg'>
+	</item>
+
+	<item id='2'>
+		<naam><![CDATA[naam van de locatie]]></naam>
+		<cijfer><![CDATA[5,5]]></cijfer>
+		</imagesrc='dummy2.jpg'>
+	</item>
+
+	<item id='3'>
+		<naam><![CDATA[naam van de locatie]]></naam>
+		<cijfer><![CDATA[6,5]]></cijfer>
+		</imagesrc='dummy3.jpg'>
+	</item>
+
+</eindscore>

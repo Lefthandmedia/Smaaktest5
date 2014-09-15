@@ -4,44 +4,57 @@
 (function() {
 
 	var app = angular.module('quizModule', []);
+	//-------------- Quiz controller------------------
+	app.controller('quizController', ['$rootScope', '$scope', '$http', 'dataFactory', function($rootScope, $scope, $http, dataFactory) {
+		var qc = {};
+		var _this = this;
+		var df = dataFactory;
+		var actualLocation = {};
 
-	app.controller('quizController', ['$scope', '$http', 'dataFactory', function($scope, $http, dataFactory) {
-		qc = {};
-		dit = this;
-
-		$scope.df = dataFactory;
 		$scope.actual = 0;
-		$scope.actualPic = '/pictures/Biogewas.jpg';
 
-		$scope.pictures = [
-			{'url': '/hier.jpg', name: 'plaatje test'},
-			{'url': '/hier1.jpg', name: 'plaatje1 test'},
-			{'url': '/hier2.jpg', name: 'plaatje2 test'}
-		];
-
-		this.updatePic = function() {
-			console.log(dit.actual);
-			console.log(this.actual);
-			console.log($scope.actual);
-			var url = $scope.pictures[$scope.actual]['url'];
-			console.log(url);
-			$scope.actualPic = url;
-
-		}
+		qc.locations = [];
 
 		qc.vote = function(v) {
-			console.log(dit);
-			$scope.actual++;
-			dit.updatePic();
+			df.vote({cijfer: v, location: '_'+ actualLocation.id});
 		};
 
-		qc.testquizController = function(v) {
-			$scope.df.facttest();
-			console.log('vote = ' + v);
+		$scope.$on(df.const.start, function() {
+			_this.refreshData();
+			_this.updateLocation();
+		});
+
+		$scope.$on(df.const.nextq, function(evt) {
+			$scope.actual++;
+
+            console.log('-----------------');
+            console.log($scope.actual);
+            console.log(qc.locations.length);
+
+            //---- TEMP LOOP DOWN ---
+            // $scope.actual >= qc.locations.length
+			if($scope.actual >= 5)
+			{
+				df.getResult();
+			} else
+			{
+				_this.updateLocation();
+			}
+		});
+
+		//------- private -----------
+
+		this.refreshData = function() {
+			qc.locations = df.getQuiz();
+			$scope.totallocations = qc.locations.length;
+		};
+
+		this.updateLocation = function() {
+			actualLocation = qc.locations[$scope.actual];
+			$scope.actualLocation = actualLocation;
 		};
 
 		return qc;
-
-
 	}]);
+	//------------------------------------------------
 })();
