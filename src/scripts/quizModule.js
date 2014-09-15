@@ -26,14 +26,7 @@
 
 		$scope.$on(df.const.nextq, function(evt) {
 			$scope.actual++;
-
-            console.log('-----------------');
-            console.log($scope.actual);
-            console.log(qc.locations.length);
-
-            //---- TEMP LOOP DOWN ---
-            // $scope.actual >= qc.locations.length
-			if($scope.actual >= 5)
+			if($scope.actual >= qc.locations.length)
 			{
 				df.getResult();
 			} else

@@ -2,22 +2,41 @@
  * Created by ralph on 9/13/14.
  */
 
-(function () {
-    var app = angular.module('locationModule',[]);
+(function() {
+	var app = angular.module('locationModule', []);
 
-    app.controller('locationController', ['$scope','adminFactory', function ($scope,adminFactory) {
+	app.controller('locationController', ['$rootScope', '$scope', 'adminFactory', function($rootScope,$scope, adminFactory) {
 
-        var ac = {};
-        var _this = this;
-        var ff = adminFactory;
-        $scope.locations = [];
+		var ac = {};
+		var _this = this;
+		$scope.locations = {};
+		$scope.state = $scope.$parent.state;
 
-        ac.getLocations = function(){
-            $scope.locations = af.getLocations;
-        };
+		$scope.$on(adminFactory.const.showlocations,function(){
+			$rootScope.state = 'list';
+
+		});
+
+		ac.getLocations = function() {
+			adminFactory.getLocations().then(function(data) {
+				$scope.locations = data.locaties;
+				console.log(data.locaties);
+			}, function(data) {
+				alert(data);
+			});
+		};
+
+		ac.editLocation = function(id) {
+			adminFactory.editLocation().then(function(data) {
+				$scope.locations = data.locaties;
+				console.log(data.locaties);
+			}, function(data) {
+				alert(data);
+			});
+		};
 
 
-        return ac;
+		return ac;
 
-    }]);
+	}]);
 })();
