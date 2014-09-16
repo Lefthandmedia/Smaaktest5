@@ -41,6 +41,8 @@
 		//--- haal alle vragen op op basis van NAWid ---
 		df.setQuiz = function(dat) {
 			df.usersession = dat.user_id;
+			
+			console.log(dat);
 			df.data = dat.locaties.entries;
 			$rootScope.step = 3;
 			$rootScope.$broadcast(df.const.start);

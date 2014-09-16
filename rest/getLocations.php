@@ -13,4 +13,4 @@ if (!$db->connect()) {
     $db->print_last_error(false);
 }
 
-json_encode($db->getLocations());
+echo json_encode(array('locaties'=>$db->getLocations()));
