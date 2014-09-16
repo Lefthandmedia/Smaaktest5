@@ -1,6 +1,18 @@
 <?php
 /**
  * @author Lefthandmedia <ralph@lefthandmedia.com>
+ *
+ * 1 = auto
+ * 2 = duurzaamheid
+ * 3 = geslacht
+ * 4 = ikben
+ * 5 = mijnband
+ * 6 = texel
+ * 7 = voorkeur
+ *
+ *
+ *
+ *
  */
 require_once('db.class.php');
 $db = new db_class;
@@ -10,16 +22,16 @@ if (!$db->connect()) {
 }
 //=======================
 
-
+$json = json_decode(file_get_contents("php://input"));
 
 $data = array(
-    'user_geb_datum' => $json->geboortejaar,
-    'user_voorkeur' => $json->voorkeur,
-    'user_ikben' => $json->ikben,
-    'user_texel' => $json->texel,
-    'user_geslacht' => $json->geslacht,
-    'user_duurzaamheid' => $json->duurzaamheid,
-    'user_mijnband' => $json->mijnband
+    'user_veld1' => $json->veld1,
+    'user_veld7' => $json->veld7,
+    'user_veld4' => $json->veld4,
+    'user_veld6' => $json->veld6,
+    'user_veld3' => $json->veld3,
+    'user_veld2' => $json->veld2,
+    'user_veld5' => $json->veld5
 );
 
 //--- create user ------

@@ -6,7 +6,7 @@
  * Time: 7:41 PM
  */
 
-require_once('db.class.php');
+require_once('../db.class.php');
 $db = new db_class;
 // Open up the database connection.
 if (!$db->connect()) {

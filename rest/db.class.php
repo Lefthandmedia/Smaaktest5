@@ -1,5 +1,16 @@
 <?php session_start();
 
+/*
+ *
+ *  1 = auto
+  * 2 = duurzaamheid
+  * 3 = geslacht
+  * 4 = ikben
+  * 5 = mijnband
+  * 6 = texel
+  * 7 = voorkeur
+ */
+
 // constants used by class
 define('MYSQL_TYPES_NUMERIC', 'int real ');
 define('MYSQL_TYPES_DATE', 'datetime timestamp year date time ');
@@ -101,6 +112,14 @@ class db_class{
             $res[] = array('label' => $row['label'], 'value' => $row['id']);
         }
         // $object = json_decode(json_encode($res), FALSE);
+        return $res;
+    }
+
+    function getPulldownJaren(){
+        $res = array();
+        for($i=1914;$i<2014;$i++){
+            $res[] = array('label' => $i, 'value' => $i);
+        }
         return $res;
     }
 

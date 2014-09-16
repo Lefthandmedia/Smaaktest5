@@ -11,6 +11,7 @@
 		var _this = this;
 		$scope.locations = {};
 		$scope.state = 'poop';
+		$rootScope.state = 'scopetest';
 
 		$scope.$on(adminFactory.const.showlocations,function(){
 			// $rootScope.state = 'list';
@@ -19,6 +20,9 @@
 		});
 
 		ac.getLocations = function() {
+			$rootScope.state = 'test ing 123'
+
+
 			adminFactory.getLocations().then(function(data) {
 				$scope.locations = data.locaties;
 				console.log(data.locaties);
@@ -35,7 +39,6 @@
 				alert(data);
 			});
 		};
-
 
 		return ac;
 

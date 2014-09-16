@@ -56,7 +56,7 @@
 			var deferred = $q.defer();
 			$http({
 				      method: "get",
-				      url: "/rest/getLocations.php"
+				      url: "/rest/admin/getLocations.php"
 			      })
 				.success(function(data) {
 					         // console.log(data);
