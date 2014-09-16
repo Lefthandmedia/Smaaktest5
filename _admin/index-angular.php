@@ -29,7 +29,7 @@
                     <button ng-click="adminCtrl.addTags()">Tags toevoegen</button>
                 </li>
                 <li>
-                    <button ng-click="adminCtrl.stats()">Uitslagen</button>
+                    <button ng-click="adminCtrl.showStats()">Uitslagen</button>
                 </li>
             </ul>
         </div>
@@ -37,9 +37,13 @@
         <div class="col-md-8">
             <div class="container">
                 <div class="row">
+                    {{state}}
 
-                    <section id="locationlist" ng-controller="locationController as locationCtrl" ng-init="locationCtrl.getLocations()" ng-show="state == list">
 
+
+                    <section id="locationlist" ng-controller="locationController as locationCtrl" ng-init="locationCtrl.getLocations()" ng-hide="state == list">
+                        {{state}}
+                        {{adminCtrl.state}}
                         <ul>
                             <li ng-repeat="item in locations" class="row">
                                 <div class="col-md-1"> {{item.id}}</div>
@@ -48,7 +52,6 @@
                                 <div class="col-md-1" ng-click="locationCtrl.removeLocation()"> verwijderen</div>
                             </li>
                         </ul>
-
                     </section>
 
 

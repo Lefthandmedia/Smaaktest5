@@ -70,13 +70,24 @@
 			return deferred.promise;
 		}
 		//----------------
-		service.editLocation = function() {
-			var request = $http({
-				                    method: "get",
-				                    url: "/rest/editLocations.php"
-			                    });
+		service.editLocation = function(id) {
+            console.log(id);
+            console.log('getLocations');
+            var deferred = $q.defer();
+            $http({
+                method: "get",
+                url: "/rest/editLocations.php"
+            })
+                .success(function(data) {
+                    // console.log(data);
+                    deferred.resolve(data);
+                })
+                .error(function(data) {
+                    //console.log(data);
+                    deferred.reject('error');
+                })
 
-			return( request.then(handleSuccess, handleError) );
+            return deferred.promise;
 		}
 
 		return service;

@@ -10,10 +10,11 @@
 		var ac = {};
 		var _this = this;
 		$scope.locations = {};
-		$scope.state = $scope.$parent.state;
+		$scope.state = 'poop';
 
 		$scope.$on(adminFactory.const.showlocations,function(){
-			$rootScope.state = 'list';
+			// $rootScope.state = 'list';
+
 
 		});
 
@@ -27,7 +28,7 @@
 		};
 
 		ac.editLocation = function(id) {
-			adminFactory.editLocation().then(function(data) {
+			adminFactory.editLocation(id).then(function(data) {
 				$scope.locations = data.locaties;
 				console.log(data.locaties);
 			}, function(data) {
