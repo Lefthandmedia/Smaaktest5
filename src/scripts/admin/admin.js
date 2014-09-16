@@ -9,7 +9,7 @@
 
 	app.controller('adminController', ['$scope','$rootScope', function($scope, $rootScope) {
 		var ac = {};
-		$scope.state = '';
+		$scope.states = {state:'list'};
 		
 		ac.init = function(){
 			ac.showLocations();
@@ -18,20 +18,20 @@
 
 		ac.showLocations = function() {
 			console.log('showLocations');
-			$scope.state = 'list';
+			$scope.states.state = 'list';
 		};
 
 		ac.addLocation = function() {
 			console.log('addLocation');
-			$scope.state = 'new';
+            $scope.states.state = 'edit';
 		};
 		ac.addTags = function() {
 			console.log('addTags');
-			$scope.state = 'tags';
+            $scope.states.state = 'tags';
 		};
 		ac.showStats = function() {
 			console.log('showStats');
-			$scope.state = 'stats';
+            $scope.states.state = 'stats';
 		};
 
 

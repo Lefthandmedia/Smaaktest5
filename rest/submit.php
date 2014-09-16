@@ -2,7 +2,7 @@
 /**
  * @author Lefthandmedia <ralph@lefthandmedia.com>
  *
- * 1 = auto
+ * 1 = geboortejaar
  * 2 = duurzaamheid
  * 3 = geslacht
  * 4 = ikben
