@@ -31,9 +31,12 @@ gulp.task('styles', function() {
 		;
 });
 gulp.task('libs', function() {
-	return gulp.src([bowerpath + 'jquery/dist/jquery.js',
+	return gulp.src([bowerpath + 'ng-file-upload/angular-file-upload-html5-shim.js',
+		             bowerpath + 'jquery/dist/jquery.js',
 	                 bowerpath + 'angular/angular.js',
-	                 bowerpath + 'angular-route/angular-route.js'])
+	                 bowerpath + 'angular-route/angular-route.js',
+	                 bowerpath + 'ng-file-upload/angular-file-upload.js'
+	                ])
 		// .pipe(jshint('.jshintrc'))
 		//.pipe(jshint.reporter('default'))
 		.pipe(concat('libs.js'))

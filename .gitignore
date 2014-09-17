@@ -1,2 +1,4 @@
 .sass-cache
 .DS_Store
+bower_components/angular-ui-router
+bower_components/ng-file-upload

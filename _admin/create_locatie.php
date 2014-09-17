@@ -35,7 +35,10 @@ include('header.php');?>
   <tr>
   <td>Tags:</td><td><?php $db->pulldown_query_tags("SELECT * FROM app_tags"); ?></td></tr>
   <input name="uploadNeed" type="hidden" value="1" />
-  <tr><td>Activeer locatie</td><td><input name="actief" type="checkbox" value="1" checked /></td>
+
+
+
+    <tr><td>Activeer locatie</td><td><input name="actief" type="checkbox" value="1" checked /></td>
   <tr><td>&nbsp;</td><td><input name="Submit" type="submit" value="Locatie aanmaken" /></td></tr>
 </table>
 
