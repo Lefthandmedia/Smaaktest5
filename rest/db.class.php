@@ -117,7 +117,7 @@ class db_class{
 
     function getPulldownJaren(){
         $res = array();
-        for($i=1914;$i<2014;$i++){
+        for ($i = 1914; $i < 2014; $i++) {
             $res[] = array('label' => $i, 'value' => $i);
         }
         return $res;
@@ -220,56 +220,60 @@ class db_class{
     }
 
     //================= ADMIN ================================
-    function getLocations(){
+    function getPhotosToLocation($locationId){
+        $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = '" . $locationId . "' ";
+        $r2 = mysql_query($sql2);
+        $ret = array();
+        $i = 0;
+        while ($row2 = mysql_fetch_assoc($r2)) {
+            $ret[$i] = array('photo_src' => $row2['photo_src'], 'id' => $row2['id']);
+            $i++;
+        }
+        return $ret;
+    }
 
+    function getLocations(){
         $sql = "SELECT * FROM app_locaties";
         $r = $this->select($sql);
         if(!$r){
             return false;
         }
-
         $ret = array();
 
         while ($row = mysql_fetch_assoc($r)) {
             $locatie = array();
-
-
             foreach ($row as $key => $value) {
                 // array_push($locatie, array($key => $value));
                 $locatie[$key] = $value;
-
             }
+            $locatie['photos'] = $this->getPhotosToLocation($locatie['id']);
 
-//            if ($i == 0) {
-//                echo "<tr><td colspan=\"" . sizeof($row) . "\"><span style=\"font-face: monospace; font-size: 9pt;\">Overzicht</span></td></tr>\n";
-//                echo "<tr>\n";
-//                foreach ($row as $col => $value) {
-//
-//                    echo "<td bgcolor=\"#E6E5FF\"><span style=\"font-face: sans-serif; font-size: 9pt; font-weight: bold;\">$col</span></td>\n";
-//                }
-//                echo "<td bgcolor=\"#E6E5FF\"><span style=\"font-face: sans-serif; font-size: 9pt; font-weight: bold;\">&nbsp;</span></td>\n";
-//                echo "<td bgcolor=\"#E6E5FF\"><span style=\"font-face: sans-serif; font-size: 9pt; font-weight: bold;\">&nbsp;</span></td>\n";
-//                echo "</tr>\n";
-//            }
-//            $i++;
-//            if ($i % 2 == 0) {
-//                $bg = '#E3E3E3';
-//            } else {
-//                $bg = '#F3F3F3';
-//            }
-//            echo "<tr>\n";
-//            foreach ($row as $value) {
-//
-//                echo "<td bgcolor=\"$bg\"><span style=\"font-face: sans-serif; font-size: 9pt;\">$value</span></td>\n";
-//            }
-//            echo "<td bgcolor=\"$bg\"><span style=\"font-face: sans-serif; font-size: 9pt;\"><a href=\"" . $_SERVER['PHP_SELF'] . "?action=delete&id=" . $row['id'] . "\">Verwijder</a></span></td>\n";
-//            echo "<td bgcolor=\"$bg\"><span style=\"font-face: sans-serif; font-size: 9pt;\"><a href=\"" . $_SERVER['PHP_SELF'] . "?action=edit&id=" . $row['id'] . "\">Bewerk</a></span></td>";
-//            echo "</tr>\n";
-//        }
             array_push($ret, $locatie);
         }
         return $ret;
     }
+
+    function getLocation($id){
+        $sql = "SELECT * FROM app_locaties WHERE id = '" . $id . "'";
+        $r = $this->select($sql);
+        if(!$r){
+            return false;
+        }
+        $ret = array();
+
+        while ($row = mysql_fetch_assoc($r)) {
+            $locatie = array();
+            foreach ($row as $key => $value) {
+                // array_push($locatie, array($key => $value));
+                $locatie[$key] = $value;
+            }
+         $locatie['photos'] = $this->getPhotosToLocation($locatie['id']);
+
+            array_push($ret, $locatie);
+        }
+        return $ret;
+    }
+
 
     /*
      * ================== END PORT ==========================

@@ -16,12 +16,9 @@ $json = json_decode(file_get_contents("php://input"));
 $taak = $json->taak;
 
 if($taak == "new"){
-
-
-    $locatie = $json->locatienaam;
     $data = array(
-            'locatie' => $locatie
-    , 'thumb' => 'leeg'
+            'locatie' => $json->locatie
+          , 'thumb' => 'leeg'
     );
     $id_loc = $db->insert_array('app_locaties', $data);
     $al = $db->alter_table_add('app_stemmentotaal', "_" . $id_loc);
@@ -31,7 +28,6 @@ if($taak == "new"){
 if($taak = 'update'){
 
     $locid = $json->id;
-
     $dir = "../../uploads/";
 
 // thumbnail uploaden
@@ -90,11 +86,6 @@ if($json->actief){
 
 
 }
-if($taak == "photo"){
-
-
-}
-
 
 if($taak == "delete"){
     /*
@@ -108,8 +99,3 @@ if($taak == "delete"){
 
 //=======================================
 
-if($taak == "update_actief"){
-    $data = array('actief' => $json['actief']);
-    $rows = $db->update_array('app_locaties', $data, "id=" . $json['id'] . "");
-    return 'ok';
-}

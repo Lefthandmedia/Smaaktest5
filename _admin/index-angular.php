@@ -43,12 +43,17 @@
                         <table class="table">
                             <tr ng-repeat="item in locations">
                                 <td>
-                                    <input type="checkbox" ng-model="actief" ng-checked="{{item.actief}}" ng-true-value="1" ng-false-value="0">
+                                    <input type="checkbox"
+                                            ng-model="actief"
+                                            ng-checked="{{item.actief}}"
+                                            ng-true-value="1"
+                                            ng-false-value="0"
+                                            ng-click="locationCtrl.setActive(item.id,$event)">
                                 </td>
                                 <td>{{item.id}}</td>
                                 <td>{{item.locatie}}</td>
                                 <td>
-                                    <button ng-click="locationCtrl.updateLocation(item.id)">Bewerken</button>
+                                    <button ng-click="locationCtrl.editLocation(item.id)">Bewerken</button>
                                 </td>
                                 <td>
                                     <button ng-click="locationCtrl.removeLocation(item.id)">verwijderen</button>
@@ -62,7 +67,10 @@
                 <!--========================EDIT=================-->
                 <div id="create-location" ng-show="states.state === 'edit'" ng-controller="editController as editCtrl">
 
-                    <h2>create / edit location</h2>
+                    <h2 ng-show="locid.id">edit location = {{locid.id}}</h2>
+
+                    <h2 ng-show="!locid.id">create location</h2>
+                    {{ actual }}
 
                     <form class="form-horizontal" role="form" novalidate="" ng-submit="editCtrl.submitlocation()">
 
@@ -70,44 +78,10 @@
                             <label for="locatienaam" class="col-sm-2 control-label">locatienaam</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="locatienaam" placeholder="locatienaam"
-                                        ng-model="locatienaam" value="{{locatienaam}}">
+                                <input type="text" class="form-control" id="locatie" placeholder="locatienaam"
+                                        ng-model="actual.locatie">
                             </div>
-                            locid.id = {{locid.id}}<br/>
-                        </div>
-                        <div ng-show="locid.id">
-                            <div class="form-group">
-
-
-
-                                <div ng-file-select="onFileSelect($files,'thumb')" data-multiple="false" title="select file" onclick="this.value = null" class="btn btn-primary">kies een foto</div>
-
-                                ===========================
-                                <div ng-show="selectedFiles != null">
-
-                                    <div class="sel-file" ng-repeat="f in selectedFiles">
-                                        {{($index + 1) + '.'}}
-                                        <img ng-show="dataUrls[$index]" ng-src="{{dataUrls[$index]}}" width="30">
-
-                                        <button class="button" ng-click="start($index,'thumb')" ng-show="progress[$index] < 0">Start</button>
-                                				<span class="progress" ng-show="progress[$index] >= 0">
-                                					<div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
-                                				</span>
-
-                                        <button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
-                                        {{f.name}} - size: {{f.size}}B - type: {{f.type}}
-                                    </div>
-                                </div>
-                                ===================================
-
-                            </div>
-
-
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" ng-model="actief" checked="{{actief}}"> activeer locatie
-                                </label>
-                            </div>
+                            <br/>
                         </div>
 
                         <div class="form-group">
@@ -116,6 +90,75 @@
                             </div>
                         </div>
                     </form>
+
+
+                    <div ng-show="locid.id">
+                        <div class="form-group">
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"
+                                            ng-true-value="1"
+                                            ng-false-value="0"
+                                            ng-model="actual.actief"
+                                            ng-checked="actual.actief === '1'"
+                                            ng-change="editCtrl.setActive()"> activeer locatie
+                                </label>
+                            </div>
+
+                            <!-- ================THUMB======================-->
+                            <div class="row">
+                                <div class="col-md-3"><img ng-src="/uploads/{{actual.thumb}}" alt=""/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div ng-file-select="editCtrl.onFileSelect($files,'thumb')" title="select file" onclick="this.value = null" class="btn btn-primary">kies een thumbnail</div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div ng-show="selectedFiles['thumb'] != null">
+                                        <div class="sel-file" ng-repeat="f in selectedFiles['thumb']">
+                                            <img ng-show="dataUrls['thumb'][$index]" ng-src="{{dataUrls['thumb'][$index]}}" width="30">
+                                            <button class="button" ng-click="startPhotoUpload($index,'thumb')" ng-show="progress[$index] < 0">Start</button>
+                                                    <span class="progress" ng-show="progress[$index] >= 0">
+                                                        <div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
+                                                    </span>
+                                            <button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
+                                            {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ================PHOTO======================-->
+                            <div class="row">
+                                <div class="col-md-3"><img ng-src="/uploads/{{actual.photos[0].photo_src}}" alt=""/></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div ng-file-select="editCtrl.onFileSelect($files,'photo1')" title="select file" onclick="this.value = null" class="btn btn-primary">kies een photo</div>
+                                </div>
+
+                                <div class="col-md-9">
+                                    <div ng-show="selectedFiles['photo1'] != null">
+                                        <div class="sel-file" ng-repeat="f in selectedFiles['photo1']">
+                                            <img ng-show="dataUrls['photo1'][$index]" ng-src="{{dataUrls['photo1'][$index]}}" width="30">
+                                            <button class="button" ng-click="startPhotoUpload($index,'photo1')" ng-show="progress[$index] < 0">Start</button>
+                                                 <span class="progress" ng-show="progress[$index] >= 0">
+                                                     <div style="width:{{progress[$index]}}%">{{progress[$index]}}%</div>
+                                                   </span>
+                                            <button class="button" ng-click="abort($index)" ng-show="hasUploader($index) && progress[$index] < 100">Abort</button>
+                                            {{f.name}} - size: {{f.size}}B - type: {{f.type}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
                 </div>
                 <!--======================== TAGS =================-->
                 <div id="tags" ng-controller="tagController as tagCtrl" ng-show="states.state === 'tags'">

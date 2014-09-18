@@ -7,25 +7,12 @@
 	var app = angular.module('adminApp', ['editModule', 'statsModule', 'angularFileUpload']);
 
 
-	app.controller('adminController', ['$scope', 'adminFactory', function($scope, adminFactory) {
+	app.controller('adminController', ['$rootScope', '$scope', 'adminFactory', function($rootScope, $scope, adminFactory) {
 		var ac = {};
 		$scope.states = {state: 'list'};
 		$scope.locid = {id: null};
 		$scope.locations = {};
 		$scope.actualLocation = {};
-
-		$scope.setactual = function(id) {
-			console.log('setactual');
-			console.log(adminFactory.locations);
-			for(var i = 0; i < adminFactory.locations.length; i++)
-			{
-				if(adminFactory.locations[i].id === id){
-					console.log('HIT' + id);
-					return adminFactory.locations[i];
-				}
-			}
-			return false
-		};
 
 		ac.init = function() {
 			ac.showLocations();
@@ -40,6 +27,8 @@
 		ac.addLocation = function() {
 			console.log('addLocation');
 			$scope.locid = {id: null};
+			console.log(adminFactory.const.editloc);
+			$rootScope.$broadcast(adminFactory.const.editloc);
 			$scope.states.state = 'edit';
 		};
 		ac.addTags = function() {
@@ -84,7 +73,7 @@
 				       })
 
 			return deferred.promise;
-		}
+		};
 
 		//----------------
 		service.createLocation = function(vo) {
@@ -105,7 +94,7 @@
 				       })
 
 			return deferred.promise;
-		}
+		};
 
 		//----------------
 		service.editLocation = function(id) {
@@ -128,9 +117,52 @@
 				       })
 
 			return deferred.promise;
-		}
+		};
+
+		service.setActive = function(vo) {
+			var deferred = $q.defer();
+			$http({
+				      method: "post",
+				      url: "/rest/admin/setActive.php",
+				      data: vo
+			      })
+				.success(function(data) {
+					         console.log('=======================');
+					         console.log(data);
+					         service.locations = data.locaties;
+					         deferred.resolve(data.locaties);
+				         })
+				.error(function(data) {
+					       //console.log(data);
+					       deferred.reject('error');
+				       })
+
+			return deferred.promise;
+
+		};
+		//-------------------------
+
+		service.setactual = function(id) {
+			console.log('adminFactory, setactual');
+			console.log(service.locations);
+			for(var i = 0; i < service.locations.length; i++)
+			{
+				if(service.locations[i].id === id)
+				{
+					console.log('HIT' + id);
+					return service.locations[i];
+				}
+			}
+			return false
+		};
+		//--------------------------
+
+		service.swaprow = function(location) {
 
 
+		};
+
+		//----------------------------
 		return service;
 
 	}]);

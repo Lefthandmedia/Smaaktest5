@@ -18,29 +18,43 @@
 			});
 		};
 
-		ac.updateLocation = function(id) {
+		ac.editLocation = function(id) {
 			console.log('updateLocation');
 			$scope.locid.id = id;
-			$scope.setactual(id);
+			//$scope.setactual(id);
 			$scope.states.state = 'edit';
+			$rootScope.$broadcast(adminFactory.const.editloc);
+		};
 
-			//			var vo = {taak: 'new', locatienaam: $scope.locatienaam};
-			//			adminFactory.createLocation(vo).then(function(data) {
-			//				console.log('ec.createLocation');
-			//				console.log(data);
-			//				$scope.locid = data.id;
-			//
-			//			}, function(data) {
-			//				alert(data);
-			//			});
+		ac.setActive = function(id, $event) {
+			var actief = ($event.target.checked) ? "1" : "0";
+			var vo = {actief: actief, locid: id};
+			adminFactory.setActive(vo).then(function(locaties) {
+				console.log("ac.setActive");
+				console.log(locaties);
+				$scope.locations = locaties;
+
+			}, function(data) {
+				alert(data);
+			});
 		};
 
 		return ac;
 	}]);
 	//-----------------------------------------
-	app.controller('editController', ['$rootScope', '$scope', '$timeout' ,'$upload',  'adminFactory', function($rootScope, $scope, $timeout, $upload, adminFactory) {
+	app.controller('editController', ['$rootScope', '$scope', '$timeout' , '$upload', 'adminFactory', function($rootScope, $scope, $timeout, $upload, adminFactory) {
 		var ec = {};
 
+
+		ec.init = function() {
+			ec.resetUploadQueue();
+			ec.setActual();
+		};
+
+		$scope.$on(adminFactory.const.editloc, function() {
+			console.log('on ' + adminFactory.const.editloc);
+			ec.init();
+		});
 
 		ec.submitlocation = function() {
 			console.log('submitlocation');
@@ -51,15 +65,13 @@
 			} else
 			{
 				console.log('update');
-				ec.updateLocation();
+				ec.editLocation();
 			}
 		};
 
 		ec.createLocation = function() {
 			var vo = {taak: 'new', locatienaam: $scope.locatienaam};
 			adminFactory.createLocation(vo).then(function(data) {
-				console.log('ec.createLocation');
-				console.log(data);
 				$scope.locid.id = data.id;
 
 			}, function(data) {
@@ -67,22 +79,51 @@
 			});
 		};
 
-		ec.updateLocation = function() {
-			var vo = {taak: 'new', locatienaam: $scope.locatienaam};
+		ec.editLocation = function() {
+			var vo = {taak: 'edit', locatienaam: $scope.actual.locatie, actief: $scope.actual.actief, locid: $scope.locid};
 			adminFactory.createLocation(vo).then(function(data) {
-				console.log('ec.createLocation');
-				console.log(data);
-				$scope.locid = data.id;
+
 
 			}, function(data) {
 				alert(data);
 			});
 		};
 
+		ec.setActive = function() {
+			var vo = {actief: $scope.actual.actief, locid: $scope.locid};
+			adminFactory.setActive(vo).then(function(data) {
+				console.log("ec.setActive");
+				console.log(data);
+
+			}, function(data) {
+				alert(data);
+			});
+		};
+
+
+		ec.resetUploadQueue = function() {
+			console.log('ec.resetView');
+			$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+			$scope.uploadRightAway = true;
+			$scope.selectedFiles = {};
+			$scope.dataUrls = {};
+			$scope.upload = [];
+			$scope.uploadResult = [];
+		};
+
+		ec.setActual = function() {
+			if($scope.locid.id && $scope.locid.id > 0)
+			{
+				$scope.actual = adminFactory.setactual($scope.locid.id);
+			} else
+			{
+				$scope.actual = null;
+			}
+
+		};
+
 		//=========== UPLOAD METHODS ====================
 
-		$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-		$scope.uploadRightAway = false;
 
 		$scope.changeAngularVersion = function() {
 			window.location.hash = $scope.angularVersion;
@@ -96,11 +137,9 @@
 			$scope.upload[index] = null;
 		};
 
-		$scope.onFileSelect = function($files, phototag) {
-
-			console.log(phototag);
-
-			$scope.selectedFiles = [];
+		ec.onFileSelect = function($files, p) {
+			var phototag = p;
+			$scope.selectedFiles[phototag] = [];
 			$scope.progress = [];
 			// stop alle ladres
 			if($scope.upload && $scope.upload.length > 0)
@@ -113,51 +152,57 @@
 					}
 				}
 			}
-			$scope.upload = [];
-			$scope.uploadResult = [];
-			$scope.selectedFiles = $files;
-			$scope.dataUrls = [];
+			$scope.upload[phototag] = [];
+			$scope.uploadResult[phototag] = [];
+			$scope.selectedFiles[phototag] = $files;
+			$scope.dataUrls[phototag] = [];
 
 			for(var i = 0; i < $files.length; i++)
 			{
 				var $file = $files[i];
-				console.log($file);
+
 				if($scope.fileReaderSupported && $file.type.indexOf('image') > -1)
 				{
 					var fileReader = new FileReader();
 					fileReader.readAsDataURL($files[i]);
 
-					var loadFile = function(fileReader, index) {
+					var loadFile = function(fileReader, index, phototag) {
 						fileReader.onload = function(e) {
 							$timeout(function() {
-								$scope.dataUrls[index] = e.target.result;
+								$scope.dataUrls[phototag][index] = e.target.result;
 							});
 						}
-					}(fileReader, i);
+					}(fileReader, i, phototag);
 				}
 				$scope.progress[i] = -1;
+				if($scope.uploadRightAway)
+				{
+					$scope.startPhotoUpload(i, phototag);
+				}
 			}
 		};
 
 
-		$scope.start = function(index) {
+		$scope.startPhotoUpload = function(index, phototag) {
+
 			$scope.progress[index] = 0;
 			$scope.errorMsg = null;
-			$scope.upload[index] = $upload.upload({
-				                                      url: '/rest/admin/setLocation.php',
-				                                      method: 'PUT',
-				                                      headers: {'my-header': 'my-header-value'},
-				                                      data: {
-					                                      myModel: {taak: 'update', locid: $scope.locid, phototag: },
-					                                      errorCode: $scope.generateErrorOnServer && $scope.serverErrorCode,
-					                                      errorMessage: $scope.generateErrorOnServer && $scope.serverErrorMsg
-				                                      },
-				                                      file: $scope.selectedFiles[index],
-				                                      fileFormDataName: 'myFile'
-			                                      });
-			$scope.upload[index].then(function(response) {
+			$scope.upload[phototag][index] = $upload.upload({
+				                                                url: '/rest/admin/setPhoto.php',
+				                                                method: 'POST',
+				                                                headers: {'my-header': 'my-header-value'},
+				                                                data: {
+					                                                photoData: {taak: 'photo', locid: $scope.locid.id, phototag: phototag },
+					                                                errorCode: $scope.generateErrorOnServer && $scope.serverErrorCode,
+					                                                errorMessage: $scope.generateErrorOnServer && $scope.serverErrorMsg
+				                                                },
+				                                                file: $scope.selectedFiles[phototag][index],
+				                                                fileFormDataName: 'myFile'
+			                                                });
+			$scope.upload[phototag][index].then(function(response) {
+				console.log(response.data);
 				$timeout(function() {
-					$scope.uploadResult.push(response.data);
+					$scope.uploadResult[phototag].push(response.data);
 				});
 			}, function(response) {
 				if(response.status > 0) $scope.errorMsg = response.status + ': ' + response.data;
@@ -165,7 +210,7 @@
 				// Math.min is to fix IE which reports 200% sometimes
 				$scope.progress[index] = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
 			});
-			$scope.upload[index].xhr(function(xhr) {
+			$scope.upload[phototag][index].xhr(function(xhr) {
 				//				xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
 			});
 
