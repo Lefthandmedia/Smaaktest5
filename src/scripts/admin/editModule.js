@@ -81,7 +81,7 @@
 
 		ec.editLocation = function() {
 			var vo = {taak: 'edit', locatienaam: $scope.actual.locatie, actief: $scope.actual.actief, locid: $scope.locid};
-			adminFactory.createLocation(vo).then(function(data) {
+			adminFactory.editLocation(vo).then(function(data) {
 
 
 			}, function(data) {
@@ -92,8 +92,8 @@
 		ec.setActive = function() {
 			var vo = {actief: $scope.actual.actief, locid: $scope.locid};
 			adminFactory.setActive(vo).then(function(data) {
-				console.log("ec.setActive");
-				console.log(data);
+				//console.log("ec.setActive");
+				//console.log(data);
 
 			}, function(data) {
 				alert(data);
@@ -119,7 +119,6 @@
 			{
 				$scope.actual = null;
 			}
-
 		};
 
 		//=========== UPLOAD METHODS ====================

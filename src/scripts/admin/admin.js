@@ -3,169 +3,166 @@
  */
 
 
-(function() {
-	var app = angular.module('adminApp', ['editModule', 'statsModule', 'angularFileUpload']);
+(function () {
+    var app = angular.module('adminApp', ['editModule', 'statsModule', 'angularFileUpload']);
 
 
-	app.controller('adminController', ['$rootScope', '$scope', 'adminFactory', function($rootScope, $scope, adminFactory) {
-		var ac = {};
-		$scope.states = {state: 'list'};
-		$scope.locid = {id: null};
-		$scope.locations = {};
-		$scope.actualLocation = {};
+    app.controller('adminController', ['$rootScope', '$scope', 'adminFactory', function ($rootScope, $scope, adminFactory) {
+        var ac = {};
+        $scope.states = {state: 'list'};
+        $scope.locid = {id: null};
+        $scope.locations = {};
+        $scope.actualLocation = {};
 
-		ac.init = function() {
-			ac.showLocations();
-			console.log("INIT");
-		};
+        ac.init = function () {
+            ac.showLocations();
+            console.log("INIT");
+        };
 
-		ac.showLocations = function() {
-			console.log('showLocations');
-			$scope.states.state = 'list';
-		};
+        ac.showLocations = function () {
+            console.log('showLocations');
+            $scope.states.state = 'list';
+        };
 
-		ac.addLocation = function() {
-			console.log('addLocation');
-			$scope.locid = {id: null};
-			console.log(adminFactory.const.editloc);
-			$rootScope.$broadcast(adminFactory.const.editloc);
-			$scope.states.state = 'edit';
-		};
-		ac.addTags = function() {
-			console.log('addTags');
-			$scope.states.state = 'tags';
-		};
-		ac.showStats = function() {
-			console.log('showStats');
-			$scope.states.state = 'stats';
-		};
+        ac.addLocation = function () {
+            console.log('addLocation');
+            $scope.locid = {id: null};
+            console.log(adminFactory.const.editloc);
+            $rootScope.$broadcast(adminFactory.const.editloc);
+            $scope.states.state = 'edit';
+        };
+        ac.addTags = function () {
+            console.log('addTags');
+            $scope.states.state = 'tags';
+        };
+        ac.showStats = function () {
+            console.log('showStats');
+            $scope.states.state = 'stats';
+        };
 
-		return ac;
+        return ac;
 
-	}]);
+    }]);
 
-	app.factory('adminFactory', ['$rootScope', '$http' , '$q' , function($rootScope, $http, $q) {
+    app.factory('adminFactory', ['$rootScope', '$http' , '$q' , function ($rootScope, $http, $q) {
 
-		var service = {const: {}};
-		service.const.getloc = "GET_LOCATIONS";
-		service.const.showlocations = "SHOW_LOCATIONS";
-		service.const.editloc = "EDIT_LOCATION";
-		service.const.result = "SEE_RESULTS";
-		service.data = [];
-		service.locations = [];
-		//----------------
+        var service = {const: {}};
+        service.const.getloc = "GET_LOCATIONS";
+        service.const.showlocations = "SHOW_LOCATIONS";
+        service.const.editloc = "EDIT_LOCATION";
+        service.const.result = "SEE_RESULTS";
+        service.data = [];
+        service.locations = [];
+        //----------------
 
-		service.getLocations = function() {
-			console.log('getLocations');
-			var deferred = $q.defer();
-			$http({
-				      method: "get",
-				      url: "/rest/admin/getLocations.php"
-			      })
-				.success(function(data) {
-					         console.log(data);
-					         service.locations = data.locaties;
-					         deferred.resolve(data);
-				         })
-				.error(function(data) {
-					       //console.log(data);
-					       deferred.reject('error');
-				       })
+        service.getLocations = function () {
+            console.log('getLocations');
+            var deferred = $q.defer();
+            $http({
+                method: "get",
+                url: "/rest/admin/getLocations.php"
+            })
+                .success(function (data) {
+                    console.log(data);
+                    service.locations = data.locaties;
+                    deferred.resolve(data);
+                })
+                .error(function (data) {
+                    //console.log(data);
+                    deferred.reject('error');
+                })
 
-			return deferred.promise;
-		};
+            return deferred.promise;
+        };
 
-		//----------------
-		service.createLocation = function(vo) {
-			console.log('createLocation');
-			var deferred = $q.defer();
-			$http({
-				      method: "post",
-				      url: "/rest/admin/setLocation.php",
-				      data: vo
-			      })
-				.success(function(data) {
-					         console.log(data);
-					         deferred.resolve(data);
-				         })
-				.error(function(data) {
-					       //console.log(data);
-					       deferred.reject('error');
-				       })
+        //----------------
+        service.createLocation = function (vo) {
+            console.log('createLocation');
+            var deferred = $q.defer();
+            $http({
+                method: "post",
+                url: "/rest/admin/setLocation.php",
+                data: vo
+            })
+                .success(function (data) {
+                    console.log(data);
+                    deferred.resolve(data);
+                })
+                .error(function (data) {
+                    //console.log(data);
+                    deferred.reject('error');
+                })
 
-			return deferred.promise;
-		};
+            return deferred.promise;
+        };
 
-		//----------------
-		service.editLocation = function(id) {
-			console.log(id);
-			console.log('getLocations');
-			var vo = {id: id};
-			var deferred = $q.defer();
-			$http({
-				      method: "get",
-				      url: "/rest/editLocations.php",
-				      data: vo
-			      })
-				.success(function(data) {
-					         // console.log(data);
-					         deferred.resolve(data);
-				         })
-				.error(function(data) {
-					       //console.log(data);
-					       deferred.reject('error');
-				       })
+        //----------------
+        service.editLocation = function (vo) {
+            console.log(id);
+            console.log('editLocation');
+            var deferred = $q.defer();
+            $http({
+                method: "get",
+                url: "/rest/admin/setLocation.php",
+                data: vo
+            })
+                .success(function (data) {
+                    service.locations = data.locaties;
+                    deferred.resolve(data.locaties);
+                })
+                .error(function (data) {
+                    //console.log(data);
+                    deferred.reject('error');
+                })
 
-			return deferred.promise;
-		};
+            return deferred.promise;
+        };
 
-		service.setActive = function(vo) {
-			var deferred = $q.defer();
-			$http({
-				      method: "post",
-				      url: "/rest/admin/setActive.php",
-				      data: vo
-			      })
-				.success(function(data) {
-					         console.log('=======================');
-					         console.log(data);
-					         service.locations = data.locaties;
-					         deferred.resolve(data.locaties);
-				         })
-				.error(function(data) {
-					       //console.log(data);
-					       deferred.reject('error');
-				       })
+        service.setActive = function (vo) {
+            var deferred = $q.defer();
+            $http({
+                method: "post",
+                url: "/rest/admin/setActive.php",
+                data: vo
+            })
+                .success(function (data) {
+                    console.log('=======================');
+                    console.log(data);
+                    service.locations = data.locaties;
+                    deferred.resolve(data.locaties);
+                })
+                .error(function (data) {
+                    //console.log(data);
+                    deferred.reject('error');
+                })
 
-			return deferred.promise;
+            return deferred.promise;
 
-		};
-		//-------------------------
+        };
+        //-------------------------
 
-		service.setactual = function(id) {
-			console.log('adminFactory, setactual');
-			console.log(service.locations);
-			for(var i = 0; i < service.locations.length; i++)
-			{
-				if(service.locations[i].id === id)
-				{
-					console.log('HIT' + id);
-					return service.locations[i];
-				}
-			}
-			return false
-		};
-		//--------------------------
+        service.setactual = function (id) {
+            console.log('adminFactory, setactual');
+            console.log(service.locations);
+            for (var i = 0; i < service.locations.length; i++) {
+                if (service.locations[i].id === id) {
+                    console.log('HIT' + id);
+                    return service.locations[i];
+                }
+            }
+            return false
+        };
+        //--------------------------
 
-		service.swaprow = function(location) {
+        service.swaprow = function (location) {
 
 
-		};
+        };
 
-		//----------------------------
-		return service;
+        //----------------------------
+        return service;
 
-	}]);
+    }]);
 
 
 })();
