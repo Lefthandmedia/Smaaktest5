@@ -21,7 +21,6 @@
 		ac.editLocation = function(id) {
 			console.log('updateLocation');
 			$scope.locid.id = id;
-			//$scope.setactual(id);
 			$scope.states.state = 'edit';
 			$rootScope.$broadcast(adminFactory.const.editloc);
 		};
@@ -90,7 +89,7 @@
 		};
 
 		ec.setActive = function() {
-			var vo = {actief: $scope.actual.actief, locid: $scope.locid};
+			var vo = {actief: $scope.actual.actief, locid: $scope.locid.id};
 			adminFactory.setActive(vo).then(function(data) {
 				//console.log("ec.setActive");
 				//console.log(data);
@@ -98,17 +97,6 @@
 			}, function(data) {
 				alert(data);
 			});
-		};
-
-
-		ec.resetUploadQueue = function() {
-			console.log('ec.resetView');
-			$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-			$scope.uploadRightAway = true;
-			$scope.selectedFiles = {};
-			$scope.dataUrls = {};
-			$scope.upload = [];
-			$scope.uploadResult = [];
 		};
 
 		ec.setActual = function() {
@@ -121,7 +109,18 @@
 			}
 		};
 
+
 		//=========== UPLOAD METHODS ====================
+
+		ec.resetUploadQueue = function() {
+			console.log('ec.resetView');
+			$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
+			$scope.uploadRightAway = true;
+			$scope.selectedFiles = {};
+			$scope.dataUrls = {};
+			$scope.upload = [];
+			$scope.uploadResult = [];
+		};
 
 
 		$scope.changeAngularVersion = function() {
@@ -200,10 +199,14 @@
 			                                                });
 			$scope.upload[phototag][index].then(function(response) {
 				console.log(response.data);
+				adminFactory.setLocations(response.data.locaties);
+				$scope.selectedFiles = {};
+				ec.setActual();
 				$timeout(function() {
 					$scope.uploadResult[phototag].push(response.data);
 				});
 			}, function(response) {
+				console.log(response);
 				if(response.status > 0) $scope.errorMsg = response.status + ': ' + response.data;
 			}, function(evt) {
 				// Math.min is to fix IE which reports 200% sometimes

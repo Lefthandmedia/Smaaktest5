@@ -221,7 +221,7 @@ class db_class{
 
     //================= ADMIN ================================
     function getPhotosToLocation($locationId){
-        $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = '" . $locationId . "' ";
+        $sql2 = "SELECT * FROM app_photos WHERE photo_locatie = '" . $locationId . "' ORDER by id DESC";
         $r2 = mysql_query($sql2);
         $ret = array();
         $i = 0;
