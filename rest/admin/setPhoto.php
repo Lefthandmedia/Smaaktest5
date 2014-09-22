@@ -52,7 +52,7 @@ if(isset($_FILES['myFile'])){
                 $rows = $db->update_array('app_locaties', $data, "id=" . $photoData->locid . "");
                 break;
 
-            case "photo":
+            case "photo1":
                 // add photos and set their locationid
                 move_uploaded_file($file_tmp, $dir . $file_name);
                 $data = array(
@@ -61,8 +61,9 @@ if(isset($_FILES['myFile'])){
                 );
                 $id = $db->insert_array('app_photos', $data);
                 break;
-
         }
+
+        echo json_encode(array('locaties'=>$db->getLocations()));
 
 
     } else {

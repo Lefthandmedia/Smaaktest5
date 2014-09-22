@@ -107,8 +107,17 @@
 
                             <!-- ================THUMB======================-->
                             <div class="row">
-                                <div class="col-md-3"><img ng-src="/uploads/{{actual.thumb}}" alt=""/></div>
+                                Thumb
+                                <div class="col-md-3"><img ng-src="/uploads/{{actual.thumb}}" alt="" width="100%"/></div>
+
+                          <div class="col-md-9">
+
+
+                          </div>
+
                             </div>
+
+
                             <div class="row">
                                 <div class="col-md-3">
                                     <div ng-file-select="editCtrl.onFileSelect($files,'thumb')" title="select file" onclick="this.value = null" class="btn btn-primary">kies een thumbnail</div>
@@ -126,12 +135,17 @@
                                             {{f.name}} - size: {{f.size}}B - type: {{f.type}}
                                         </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
+                            <br/>
 
                             <!-- ================PHOTO======================-->
                             <div class="row">
-                                <div class="col-md-3"><img ng-src="/uploads/{{actual.photos[0].photo_src}}" alt=""/></div>
+                                Photo
+                                <div class="col-md-3"><img ng-src="/uploads/{{actual.photos[0].photo_src}}" alt="" width="100%"/></div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
