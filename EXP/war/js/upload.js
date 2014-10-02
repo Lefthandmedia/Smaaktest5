@@ -1,129 +1,1 @@
-"use strict";
-
-
-angular.module('fileUpload', [ 'angularFileUpload' ]);
-
-var uploadUrl = 'http://angular-file-upload-cors-srv.appspot.com/upload';
-window.uploadUrl = window.uploadUrl || 'upload';
-
-var MyCtrl = [ '$scope', '$http', '$timeout', '$upload', function($scope, $http, $timeout, $upload) {
-	$scope.usingFlash = FileAPI && FileAPI.upload != null;
-	$scope.fileReaderSupported = window.FileReader != null && (window.FileAPI == null || FileAPI.html5 != false);
-	$scope.uploadRightAway = true;
-
-	$scope.changeAngularVersion = function() {
-		window.location.hash = $scope.angularVersion;
-		window.location.reload(true);
-	};
-	$scope.hasUploader = function(index) {
-		return $scope.upload[index] != null;
-	};
-	$scope.abort = function(index) {
-		$scope.upload[index].abort();
-		$scope.upload[index] = null;
-	};
-	$scope.angularVersion = window.location.hash.length > 1 ? (window.location.hash.indexOf('/') === 1 ?
-		window.location.hash.substring(2) : window.location.hash.substring(1)) : '1.2.20';
-
-	$scope.onFileSelect = function($files) {
-		$scope.selectedFiles = [];
-		$scope.progress = [];
-		if($scope.upload && $scope.upload.length > 0)
-		{
-			for(var i = 0; i < $scope.upload.length; i++)
-			{
-				if($scope.upload[i] != null)
-				{
-					$scope.upload[i].abort();
-				}
-			}
-		}
-		$scope.upload = [];
-		$scope.uploadResult = [];
-		$scope.selectedFiles = $files;
-		$scope.dataUrls = [];
-		for(var i = 0; i < $files.length; i++)
-		{
-			var $file = $files[i];
-			if($scope.fileReaderSupported && $file.type.indexOf('image') > -1)
-			{
-				var fileReader = new FileReader();
-				fileReader.readAsDataURL($files[i]);
-				var loadFile = function(fileReader, index) {
-					fileReader.onload = function(e) {
-						$timeout(function() {
-							$scope.dataUrls[index] = e.target.result;
-						});
-					}
-				}(fileReader, i);
-			}
-			$scope.progress[i] = -1;
-		}
-	};
-
-	$scope.start = function(index) {
-		$scope.progress[index] = 0;
-		$scope.errorMsg = null;
-
-
-		$scope.upload[index] = $upload.upload({
-			                                      url: uploadUrl,
-			                                      method: 'PUT',
-			                                      headers: {'my-header': 'my-header-value'},
-			                                      data: {
-				                                      myModel: $scope.myModel,
-				                                      errorCode: $scope.generateErrorOnServer && $scope.serverErrorCode,
-				                                      errorMessage: $scope.generateErrorOnServer && $scope.serverErrorMsg
-			                                      },
-			                                      /* formDataAppender: function(fd, key, val) {
-			                                       if (angular.isArray(val)) {
-			                                       angular.forEach(val, function(v) {
-			                                       fd.append(key, v);
-			                                       });
-			                                       } else {
-			                                       fd.append(key, val);
-			                                       }
-			                                       }, */
-			                                      /* transformRequest: [function(val, h) {
-			                                       console.log(val, h('my-header')); return val + '-modified';
-			                                       }], */
-			                                      file: $scope.selectedFiles[index],
-			                                      fileFormDataName: 'myFile'
-		                                      });
-		$scope.upload[index].then(function(response) {
-			$timeout(function() {
-				$scope.uploadResult.push(response.data);
-			});
-		}, function(response) {
-			if(response.status > 0) $scope.errorMsg = response.status + ': ' + response.data;
-		}, function(evt) {
-			// Math.min is to fix IE which reports 200% sometimes
-			$scope.progress[index] = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-		});
-		$scope.upload[index].xhr(function(xhr) {
-			//				xhr.upload.addEventListener('abort', function() {console.log('abort complete')}, false);
-		});
-
-	};
-
-	$scope.dragOverClass = function($event) {
-		var items = $event.dataTransfer.items;
-		var hasFile = false;
-		if(items != null)
-		{
-			for(var i = 0; i < items.length; i++)
-			{
-				if(items[i].kind == 'file')
-				{
-					hasFile = true;
-					break;
-				}
-			}
-		} else
-		{
-			hasFile = true;
-		}
-		return hasFile ? "dragover" : "dragover-err";
-	};
-
-} ];
+Nieuwsbrief 29 septemberonderwerp regel: oktober borstkankermaand!Artikel 1:Beeld: Sharon & Anouk campagne foto (zonder tekst, wel namen zichtbaar in de afbeelding)Titel: De BandOndertitel: Mijn band met AnoukTekst: ‘’Lieve Anouk, deze bijzondere armband draag ik voor jou, om mijn bewondering voor jou en de manier waarop jij met je ziekte omgaat te eren. Ik ben supertrots op je. Liefs, je zus Sharon’’Artikel 1: Kop: Nieuwe Armband Tekst:Met deze armband laat je zien dat jij met iemand een speciale band hebt. Koop een armband voor jezelf of geef er een cadeau aan jouw dierbare(n). De armband wordt vanaf 1 oktober verkocht bij o.a. DA, Bruna, Miss Etam en Sandwich. Link: http://www.pinkribbon.nl/steun-ons/armband-2014.html Artikel 2: Beeld: Selfie deband met of zonder tekst. Kop: #DeBandTekst: Laat ook via social media zien met wie jij een band hebt. Maak een selfie van jezelf met de armband en deel deze via Facebook, Twitter of Instagram. Begin de zin met ‘mijn band met’…. en eindig met #DeBand.Link: http://www.pinkribbon.nl/steun-ons/armband-2014.html Artikel 3: Beeld: cover magazine  Kop: Magazine in de winkelTekst: Heb jij het Pink Ribbon Magazine al besteld in de webshop? Nee? Hij is vanaf 1 oktober ook in de winkel te koop. In het magazine lees je feiten, cijfers en verhalen over angst, hoop, (verloren) liefde, doodgaan en overleven. De volledige opbrengst wordt besteed aan onderzoek. Link: http://www.pinkribbon.nl/steun-ons/magazine.html Artikel 4: Kop: Jij bepaalt waar je donatie naartoe gaatBeeld: onderzoekTekst:Na de aanschaf van de agenda, de armband en het magazine kun jij bepalen waar je donatie naartoe gaat. Je kunt kiezen uit twee onderzoeken; een onderzoek op het gebied van erfelijke belasting en een onderzoek voor behandeling van patiënten met uitgezaaide borstkanker. Op www.pinkribbon.nl/stemmen kun je jouw keuze invullen.Artikel 5: Sky AbseilenBeeld: Titel: Sky Abseilen Tekst: Het is bijna 5 oktober: Sky Abseilen in Groningen komt erg dichtbij! Op de Grote Markt kun jij je van 40 meter hoogte naar beneden laten ‘vallen’. Er zijn nog plekken beschikbaar, dus meld je aan en doe mee! Link: http://www.lifetime-xperience.com/abseilenvoorpinkribbon/uncategorised/abseilen-voor-pink-ribbon Artikel 6: Beeld: logo Hoop & VreesTitel: Themadag Hoop & VreesTekst: Borstkankervereniging Nederland organiseert 11 oktober de themadag Hoop & Vrees voor mensen met uitgezaaide borstkanker. Er wordt besproken hoe je zo goed mogelijk kwaliteit, inhoud en betekenis kunt geven aan je leven. Inschrijven is gratis en kan via http://www.borstkanker.nl/hoop_en_vrees_2014 Agenda: 04-10: Curves vriendinnenloop UtrechtLoop samen met je vriendinnen 7 of 12 km.05-10: Mondriaan Run HeerlenHardloopwedstrijden met ook jeugdafstanden!24 tot 26-10: Vrouw! On Tour GroningenEen heerlijk dagje uit voor vrouwen.Beeld: Foto schoenen!
