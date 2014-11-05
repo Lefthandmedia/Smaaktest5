@@ -38,7 +38,7 @@ gulp.task('libs', function() {
 	                 bowerpath + 'ng-file-upload/angular-file-upload.js'
 	                ])
 		// .pipe(jshint('.jshintrc'))
-		//.pipe(jshint.reporter('default'))
+		// .pipe(jshint.reporter('default'))
 		.pipe(concat('libs.js'))
 		.pipe(gulp.dest(jsdest))
 		.pipe(rename({suffix: '.min'}))
